@@ -20,6 +20,7 @@ public class MerchantResponse {
     String businessName;
     MerchantStatus status;
     Instant createdAt;
+    Instant updatedAt;
 
 
     public static MerchantResponse from(Merchant merchant){
@@ -30,7 +31,8 @@ public class MerchantResponse {
                 merchant.getPhone(),
                 merchant.getBusinessName(),
                 merchant.getStatus(),
-                merchant.getCreatedAt()
+                merchant.getCreatedAt(),
+                merchant.getUpdatedAt()
 
         );
     }

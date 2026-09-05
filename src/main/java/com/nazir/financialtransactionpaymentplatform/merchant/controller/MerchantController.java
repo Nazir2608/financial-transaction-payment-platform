@@ -7,6 +7,7 @@ import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchant
 import com.nazir.financialtransactionpaymentplatform.merchant.service.MerchantService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +51,9 @@ public class MerchantController {
         return service.updateMerchant(merchantId, request);
     }
 
-
+    @DeleteMapping("/{merchantId}")
+    public ResponseEntity<String> deleteMerchant(@PathVariable UUID merchantId){
+        return service.deleteMerchant(merchantId);
+    }
 
 }

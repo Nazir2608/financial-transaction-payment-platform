@@ -9,6 +9,7 @@ import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchant
 import com.nazir.financialtransactionpaymentplatform.merchant.entity.Merchant;
 import com.nazir.financialtransactionpaymentplatform.merchant.repository.MerchantRepository;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class MerchantService {
 
     public MerchantResponse createMerchant(CreateMerchantRequest request) {
 
-        if (repository.existsByEmail(request.email)) {
+        if (repository.existsByEmailAndDeletedFalse(request.email)) {
             throw new DuplicateResourceException("Merchant with email already exists");
         }
 
@@ -59,7 +60,7 @@ public class MerchantService {
 
         merchant.setStatus(request.status);
 
-        Merchant savedMerchant = repository.save(merchant);
+        Merchant savedMerchant = repository.saveAndFlush(merchant);
 
         return MerchantResponse.from(savedMerchant);
 
@@ -69,7 +70,7 @@ public class MerchantService {
 
         Merchant merchant = repository.findById(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
 
-        if (!merchant.getEmail().equals(request.email) && repository.existsByEmail(request.email)){
+        if (!merchant.getEmail().equals(request.email) && repository.existsByEmailAndDeletedFalse(request.email)){
             throw new IllegalArgumentException("Merchant with email already exist");
         }
 
@@ -81,5 +82,18 @@ public class MerchantService {
         Merchant savedMerchant = repository.save(merchant);
 
         return MerchantResponse.from(savedMerchant);
+    }
+
+    public ResponseEntity<String> deleteMerchant(UUID merchantId) {
+
+        Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() ->
+                        new ResourceNotFoundException("Merchant not found: " + merchantId));
+
+        merchant.setDeleted(true);
+
+        repository.saveAndFlush(merchant);
+
+        return ResponseEntity.ok("Deleted successfully");
+
     }
 }

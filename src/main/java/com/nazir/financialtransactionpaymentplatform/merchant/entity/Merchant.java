@@ -43,6 +43,10 @@ public class Merchant {
     @Column(name = "update_at",nullable = false)
     private Instant updatedAt;
 
+    @Column(name = "is_deleted", nullable = false)
+    private boolean deleted = false;
+
+
     @PrePersist
     protected void createOn(){
         Instant now=Instant.now();
