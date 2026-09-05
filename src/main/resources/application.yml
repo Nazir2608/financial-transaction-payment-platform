@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: financial-transaction-payment-platform
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fincore
+    username: fincore
+    password: fincore
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.nazir.financialtransactionpaymentplatform: INFO
