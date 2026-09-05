@@ -54,7 +54,7 @@ public class Merchant {
         }
     }
 
-    @PostPersist
+    @PreUpdate
     protected void updateOn(){
         updatedAt= Instant.now();
     }
