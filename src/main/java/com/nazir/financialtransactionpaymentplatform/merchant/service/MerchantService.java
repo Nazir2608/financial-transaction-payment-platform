@@ -4,6 +4,7 @@ import com.nazir.financialtransactionpaymentplatform.common.exception.DuplicateR
 import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.CreateMerchantRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.MerchantResponse;
+import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchantRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchantStatusRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.entity.Merchant;
 import com.nazir.financialtransactionpaymentplatform.merchant.repository.MerchantRepository;
@@ -62,5 +63,23 @@ public class MerchantService {
 
         return MerchantResponse.from(savedMerchant);
 
+    }
+
+    public MerchantResponse updateMerchant(UUID merchantId, UpdateMerchantRequest request) {
+
+        Merchant merchant = repository.findById(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
+
+        if (!merchant.getEmail().equals(request.email) && repository.existsByEmail(request.email)){
+            throw new IllegalArgumentException("Merchant with email already exist");
+        }
+
+        merchant.setName(request.name);
+        merchant.setEmail(request.email);
+        merchant.setPhone(request.phone);
+        merchant.setBusinessName(request.businessName);
+
+        Merchant savedMerchant = repository.save(merchant);
+
+        return MerchantResponse.from(savedMerchant);
     }
 }

@@ -2,6 +2,7 @@ package com.nazir.financialtransactionpaymentplatform.merchant.controller;
 
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.CreateMerchantRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.MerchantResponse;
+import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchantRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchantStatusRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.service.MerchantService;
 import jakarta.validation.Valid;
@@ -42,5 +43,13 @@ public class MerchantController {
     public MerchantResponse updateMerchantStatus(@PathVariable("merchantId") UUID merchantId, @Valid @RequestBody UpdateMerchantStatusRequest request){
         return service.updateMerchantStatus(merchantId,request);
     }
+
+    @PutMapping("/{merchantId}")
+    public MerchantResponse updateMerchant(@PathVariable UUID merchantId, @Valid @RequestBody UpdateMerchantRequest request) {
+        System.out.println("update request received!!!");
+        return service.updateMerchant(merchantId, request);
+    }
+
+
 
 }
