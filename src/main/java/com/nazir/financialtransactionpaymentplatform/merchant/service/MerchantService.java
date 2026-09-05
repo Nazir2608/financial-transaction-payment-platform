@@ -44,19 +44,19 @@ public class MerchantService {
     }
 
     public List<MerchantResponse> getMerchants() {
-       return repository.findAll().stream().map(MerchantResponse::from).toList();
+        return repository.findAllByDeletedFalse().stream().map(MerchantResponse::from).toList();
     }
 
     public MerchantResponse getMerchant(UUID merchantId) {
 
-        Merchant merchant = repository.findById(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchant not found: " + merchantId));
+        Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchant not found: " + merchantId));
 
         return MerchantResponse.from(merchant);
     }
 
     public MerchantResponse updateMerchantStatus(UUID merchantId, UpdateMerchantStatusRequest request) {
 
-        Merchant merchant = repository.findById(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
+        Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
 
         merchant.setStatus(request.status);
 
@@ -68,9 +68,9 @@ public class MerchantService {
 
     public MerchantResponse updateMerchant(UUID merchantId, UpdateMerchantRequest request) {
 
-        Merchant merchant = repository.findById(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
+        Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
 
-        if (!merchant.getEmail().equals(request.email) && repository.existsByEmailAndDeletedFalse(request.email)){
+        if (!merchant.getEmail().equals(request.email) && repository.existsByEmailAndDeletedFalse(request.email)) {
             throw new IllegalArgumentException("Merchant with email already exist");
         }
 
@@ -87,7 +87,7 @@ public class MerchantService {
     public ResponseEntity<String> deleteMerchant(UUID merchantId) {
 
         Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() ->
-                        new ResourceNotFoundException("Merchant not found: " + merchantId));
+                new ResourceNotFoundException("Merchant not found: " + merchantId));
 
         merchant.setDeleted(true);
 

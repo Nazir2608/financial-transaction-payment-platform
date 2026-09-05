@@ -26,23 +26,23 @@ public class MerchantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MerchantResponse createMerchant(@Valid @RequestBody CreateMerchantRequest request){
+    public MerchantResponse createMerchant(@Valid @RequestBody CreateMerchantRequest request) {
         return service.createMerchant(request);
     }
 
     @GetMapping
-    public List<MerchantResponse> findMerchants(){
+    public List<MerchantResponse> findMerchants() {
         return service.getMerchants();
     }
 
     @GetMapping("/{merchantId}")
-    public MerchantResponse findMerchantById(@PathVariable UUID merchantId){
+    public MerchantResponse findMerchantById(@PathVariable UUID merchantId) {
         return service.getMerchant(merchantId);
     }
 
     @PatchMapping("/{merchantId}/status")
-    public MerchantResponse updateMerchantStatus(@PathVariable("merchantId") UUID merchantId, @Valid @RequestBody UpdateMerchantStatusRequest request){
-        return service.updateMerchantStatus(merchantId,request);
+    public MerchantResponse updateMerchantStatus(@PathVariable("merchantId") UUID merchantId, @Valid @RequestBody UpdateMerchantStatusRequest request) {
+        return service.updateMerchantStatus(merchantId, request);
     }
 
     @PutMapping("/{merchantId}")
@@ -52,7 +52,7 @@ public class MerchantController {
     }
 
     @DeleteMapping("/{merchantId}")
-    public ResponseEntity<String> deleteMerchant(@PathVariable UUID merchantId){
+    public ResponseEntity<String> deleteMerchant(@PathVariable UUID merchantId) {
         return service.deleteMerchant(merchantId);
     }
 

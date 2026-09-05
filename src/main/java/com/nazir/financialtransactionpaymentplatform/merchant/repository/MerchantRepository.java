@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface MerchantRepository extends JpaRepository<Merchant,UUID>{
+public interface MerchantRepository extends JpaRepository<Merchant, UUID> {
     boolean existsByEmailAndDeletedFalse(String email);
 
     List<Merchant> findAllByDeletedFalse();
