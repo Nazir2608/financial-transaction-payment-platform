@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.merchant.service;
 
+import com.nazir.financialtransactionpaymentplatform.common.exception.DuplicateResourceException;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.CreateMerchantRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.MerchantResponse;
 import com.nazir.financialtransactionpaymentplatform.merchant.entity.Merchant;
@@ -18,7 +19,7 @@ public class MerchantService {
     public MerchantResponse createMerchant(CreateMerchantRequest request) {
 
         if (repository.existsByEmail(request.email)) {
-            throw new IllegalArgumentException("Merchant with email already exists");
+            throw new DuplicateResourceException("Merchant with email already exists");
         }
 
         Merchant merchant = new Merchant();
