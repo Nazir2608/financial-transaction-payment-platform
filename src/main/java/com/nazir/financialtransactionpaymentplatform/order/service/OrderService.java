@@ -7,10 +7,14 @@ import com.nazir.financialtransactionpaymentplatform.merchant.entity.Merchant;
 import com.nazir.financialtransactionpaymentplatform.merchant.repository.MerchantRepository;
 import com.nazir.financialtransactionpaymentplatform.order.dto.CreateOrderRequest;
 import com.nazir.financialtransactionpaymentplatform.order.dto.OrderResponse;
+import com.nazir.financialtransactionpaymentplatform.order.dto.UpdateOrderStatusRequest;
 import com.nazir.financialtransactionpaymentplatform.order.entity.Order;
+import com.nazir.financialtransactionpaymentplatform.order.entity.OrderStatus;
 import com.nazir.financialtransactionpaymentplatform.order.repository.OrderRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,7 +36,7 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Merchant not found: " + request.merchantId));
 
         Customer customer = customerRepository.findByIdAndDeletedFalse(request.customerId).orElseThrow(() ->
-                        new ResourceNotFoundException("Customer not found: " + request.customerId));
+                new ResourceNotFoundException("Customer not found: " + request.customerId));
 
         Order order = new Order();
 
@@ -50,4 +54,59 @@ public class OrderService {
     private String generateOrderNumber() {
         return "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
+
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAllByDeletedFalse().stream().map(OrderResponse::from).toList();
+    }
+
+    public OrderResponse getOrder(UUID orderId) {
+        Order order = orderRepository.findByIdAndDeletedFalse(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+        return OrderResponse.from(order);
+    }
+
+    public List<OrderResponse> getOrdersByMerchantId(UUID merchantId) {
+        return orderRepository.findAllByMerchantIdAndDeletedFalse(merchantId).stream().map(OrderResponse::from).toList();
+    }
+
+    public List<OrderResponse> getOrdersByCustomerId(UUID customerId) {
+        return orderRepository.findAllByCustomerIdAndDeletedFalse(customerId).stream().map(OrderResponse::from).toList();
+    }
+
+    public OrderResponse updateOrderStatus(UUID orderId, UpdateOrderStatusRequest request) {
+
+        Order order = orderRepository.findByIdAndDeletedFalse(orderId).orElseThrow(() ->
+                new ResourceNotFoundException("Order not found: " + orderId));
+
+        validateStatusTransition(order.getStatus(), request.status);
+
+        order.setStatus(request.status);
+
+        Order savedOrder = orderRepository.save(order);
+
+        return OrderResponse.from(savedOrder);
+    }
+
+    private void validateStatusTransition(OrderStatus currentStatus, OrderStatus newStatus) {
+
+        if (currentStatus == newStatus) {
+            throw new IllegalArgumentException("Order is already in status: " + currentStatus);
+        }
+
+        boolean valid = switch (currentStatus) {
+
+            case CREATED -> newStatus == OrderStatus.PENDING_PAYMENT || newStatus == OrderStatus.CANCELLED;
+
+            case PENDING_PAYMENT -> newStatus == OrderStatus.PAID || newStatus == OrderStatus.FAILED || newStatus == OrderStatus.CANCELLED;
+
+            case PAID -> newStatus == OrderStatus.COMPLETED || newStatus == OrderStatus.REFUNDED;
+
+            case COMPLETED, FAILED, REFUNDED, CANCELLED -> false;
+        };
+
+        if (!valid) {
+            throw new IllegalArgumentException("Invalid order status transition: " + currentStatus + " -> " + newStatus);
+        }
+    }
+
+
 }
