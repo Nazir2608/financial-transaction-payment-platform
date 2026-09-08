@@ -3,6 +3,7 @@ package com.nazir.financialtransactionpaymentplatform.payment.controller;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.CreatePaymentRequest;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.PaymentResponse;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.UpdatePaymentStatusRequest;
+import com.nazir.financialtransactionpaymentplatform.payment.service.PaymentProcessingService;
 import com.nazir.financialtransactionpaymentplatform.payment.service.PaymentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,11 @@ import java.util.UUID;
 public class PaymentController {
 
     private final PaymentService service;
+    private final PaymentProcessingService paymentProcessingService;
 
-    public PaymentController(PaymentService service) {
+    public PaymentController(PaymentService service, PaymentProcessingService paymentProcessingService) {
         this.service = service;
+        this.paymentProcessingService = paymentProcessingService;
     }
 
     @PostMapping
@@ -40,5 +43,11 @@ public class PaymentController {
     @PatchMapping("/{paymentId}/status")
     public PaymentResponse updatePaymentStatus(@PathVariable UUID paymentId, @Valid @RequestBody UpdatePaymentStatusRequest request) {
         return service.updatePaymentStatus(paymentId, request);
+    }
+
+    @PostMapping("/{paymentId}/process")
+    @ResponseStatus(HttpStatus.OK)
+    public void processPayment(@PathVariable UUID paymentId) {
+        paymentProcessingService.processPayment(paymentId);
     }
 }

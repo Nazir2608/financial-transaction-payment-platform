@@ -96,7 +96,8 @@ public class OrderService {
 
             case CREATED -> newStatus == OrderStatus.PENDING_PAYMENT || newStatus == OrderStatus.CANCELLED;
 
-            case PENDING_PAYMENT -> newStatus == OrderStatus.PAID || newStatus == OrderStatus.FAILED || newStatus == OrderStatus.CANCELLED;
+            case PENDING_PAYMENT ->
+                    newStatus == OrderStatus.PAID || newStatus == OrderStatus.FAILED || newStatus == OrderStatus.CANCELLED;
 
             case PAID -> newStatus == OrderStatus.COMPLETED || newStatus == OrderStatus.REFUNDED;
 
@@ -108,5 +109,8 @@ public class OrderService {
         }
     }
 
+    public Order getOrderEntity(UUID orderId) {
+        return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+    }
 
 }

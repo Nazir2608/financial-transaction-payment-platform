@@ -48,4 +48,8 @@ public class AccountService {
         Account account = accountRepository.findById(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found: " + accountId));
         return account.getBalance();
     }
+
+    public Account getAccountEntityByMerchantId(UUID merchantId) {
+        return accountRepository.findByMerchantId(merchantId).orElseThrow(() -> new ResourceNotFoundException("Account not found for merchant: " + merchantId));
+    }
 }

@@ -78,7 +78,7 @@ public class PaymentService {
         }
 
         boolean valid = switch (currentStatus) {
-            case PENDING ->  newStatus == PaymentStatus.SUCCESS || newStatus == PaymentStatus.FAILED;
+            case PENDING -> newStatus == PaymentStatus.SUCCESS || newStatus == PaymentStatus.FAILED;
             case SUCCESS -> newStatus == PaymentStatus.REFUNDED;
             case FAILED, REFUNDED -> false;
         };
@@ -86,5 +86,9 @@ public class PaymentService {
         if (!valid) {
             throw new IllegalArgumentException("Invalid payment status transition: " + currentStatus + " -> " + newStatus);
         }
+    }
+
+    public Payment getPaymentEntity(UUID paymentId) {
+        return paymentRepository.findById(paymentId).orElseThrow(() -> new ResourceNotFoundException("Payment not found: " + paymentId));
     }
 }
