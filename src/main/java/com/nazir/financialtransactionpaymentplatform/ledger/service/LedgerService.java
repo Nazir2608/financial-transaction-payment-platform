@@ -1,9 +1,15 @@
 package com.nazir.financialtransactionpaymentplatform.ledger.service;
 
+import com.nazir.financialtransactionpaymentplatform.account.entity.Account;
+import com.nazir.financialtransactionpaymentplatform.account.entity.AccountStatus;
+import com.nazir.financialtransactionpaymentplatform.account.repository.AccountRepository;
+import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import com.nazir.financialtransactionpaymentplatform.ledger.dto.CreateLedgerEntryRequest;
 import com.nazir.financialtransactionpaymentplatform.ledger.dto.LedgerEntryResponse;
 import com.nazir.financialtransactionpaymentplatform.ledger.entity.LedgerEntry;
+import com.nazir.financialtransactionpaymentplatform.ledger.entity.LedgerEntryType;
 import com.nazir.financialtransactionpaymentplatform.ledger.repository.LedgerEntryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,12 +20,36 @@ import java.util.UUID;
 public class LedgerService {
 
     private final LedgerEntryRepository ledgerEntryRepository;
+    private final AccountRepository accountRepository;
 
-    public LedgerService(LedgerEntryRepository ledgerEntryRepository) {
+    public LedgerService(LedgerEntryRepository ledgerEntryRepository, AccountRepository accountRepository) {
         this.ledgerEntryRepository = ledgerEntryRepository;
+        this.accountRepository = accountRepository;
     }
 
+    @Transactional
     public LedgerEntryResponse createLedgerEntry(CreateLedgerEntryRequest request) {
+
+        Account account = accountRepository.findById(request.accountId()).orElseThrow(() -> new ResourceNotFoundException("Account not found: " + request.accountId()));
+
+        if (account.getStatus() != AccountStatus.ACTIVE) {
+            throw new IllegalArgumentException("Account is not active");
+        }
+
+        BigDecimal currentBalance = account.getBalance();
+
+        BigDecimal newBalance;
+
+        if (request.type() == LedgerEntryType.CREDIT) {
+            newBalance = currentBalance.add(request.amount());
+        } else {
+            newBalance = currentBalance.subtract(request.amount());
+            if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalArgumentException("Insufficient account balance");
+            }
+        }
+        account.setBalance(newBalance);
+        accountRepository.save(account);
 
         LedgerEntry entry = new LedgerEntry();
 
@@ -35,7 +65,6 @@ public class LedgerService {
     }
 
     public List<LedgerEntryResponse> getAllLedgerEntries() {
-
         return ledgerEntryRepository.findAll()
                 .stream()
                 .map(LedgerEntryResponse::from)
@@ -43,20 +72,11 @@ public class LedgerService {
     }
 
     public LedgerEntryResponse getLedgerEntry(UUID ledgerEntryId) {
-
-        LedgerEntry entry = ledgerEntryRepository.findById(ledgerEntryId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Ledger entry not found: "
-                                                + ledgerEntryId
-                                )
-                        );
-
+        LedgerEntry entry = ledgerEntryRepository.findById(ledgerEntryId).orElseThrow(() -> new RuntimeException("Ledger entry not found: " + ledgerEntryId));
         return LedgerEntryResponse.from(entry);
     }
 
     public List<LedgerEntryResponse> getByTransaction(UUID transactionId) {
-
         return ledgerEntryRepository
                 .findAllByTransactionId(transactionId)
                 .stream()
@@ -65,7 +85,6 @@ public class LedgerService {
     }
 
     public List<LedgerEntryResponse> getByAccount(UUID accountId) {
-
         return ledgerEntryRepository
                 .findAllByAccountId(accountId)
                 .stream()
@@ -74,7 +93,6 @@ public class LedgerService {
     }
 
     public BigDecimal getAccountBalance(UUID accountId) {
-
         return ledgerEntryRepository
                 .findAllByAccountId(accountId)
                 .stream()
