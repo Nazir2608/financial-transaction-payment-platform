@@ -91,4 +91,8 @@ public class PaymentService {
     public Payment getPaymentEntity(UUID paymentId) {
         return paymentRepository.findById(paymentId).orElseThrow(() -> new ResourceNotFoundException("Payment not found: " + paymentId));
     }
+
+    public Payment getPaymentForProcessing(UUID paymentId) {
+        return paymentRepository.findByIdForUpdate(paymentId).orElseThrow(() -> new RuntimeException("Payment not found: " + paymentId));
+    }
 }

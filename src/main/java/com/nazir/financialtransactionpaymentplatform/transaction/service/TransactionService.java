@@ -94,4 +94,9 @@ public class TransactionService {
             throw new IllegalArgumentException("Invalid transaction status transition: " + currentStatus + " -> " + newStatus);
         }
     }
+
+    public boolean existsByPaymentId(UUID paymentId) {
+        return transactionRepository.existsByPaymentId(paymentId);
+    }
+
 }

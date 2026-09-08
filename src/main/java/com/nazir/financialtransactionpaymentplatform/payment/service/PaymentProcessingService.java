@@ -42,7 +42,7 @@ public class PaymentProcessingService {
         log.info("Starting payment processing. paymentId={}", paymentId);
 
         // 1. Get Payment
-        Payment payment = paymentService.getPaymentEntity(paymentId);
+        Payment payment = paymentService.getPaymentForProcessing(paymentId);
 
         log.debug("Payment retrieved. paymentId={}, status={}", paymentId, payment.getStatus());
 
@@ -50,6 +50,10 @@ public class PaymentProcessingService {
         if (payment.getStatus() != PaymentStatus.SUCCESS) {
             log.warn("Payment processing rejected. paymentId={}, status={}",paymentId, payment.getStatus());
             throw new IllegalArgumentException("Payment must be SUCCESS before processing");
+        }
+
+        if (transactionService.existsByPaymentId(paymentId)) {
+            return;
         }
 
         // 3. Get Order from Payment

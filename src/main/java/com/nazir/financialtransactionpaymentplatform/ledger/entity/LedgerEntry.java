@@ -6,9 +6,10 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "ledger_entries")
+@Table(name = "ledger_entries", uniqueConstraints = {@UniqueConstraint(name = "uk_ledger_transaction", columnNames = "transaction_id")})
 @Getter
 @Setter
 @NoArgsConstructor
