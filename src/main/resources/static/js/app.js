@@ -157,6 +157,10 @@ function navigateToPage(pageName) {
                 renderCustomersPage();
                 break;
 
+        case "accounts":
+                renderAccountsPage();
+                break;
+
         default:
 
             console.log(

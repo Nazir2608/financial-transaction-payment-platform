@@ -222,50 +222,23 @@ const customerApi = {
 
 const accountApi = {
 
-    getAll() {
+    getAll: () =>
+        apiRequest("/api/v1/accounts"),
 
-        return apiRequest(
-            "/api/v1/accounts"
-        );
+    getById: (accountId) =>
+        apiRequest(`/api/v1/accounts/${accountId}`),
 
-    },
+    getByMerchant: (merchantId) =>
+        apiRequest(`/api/v1/accounts/merchant/${merchantId}`),
 
-    getById(id) {
+    getBalance: (accountId) =>
+        apiRequest(`/api/v1/accounts/${accountId}/balance`),
 
-        return apiRequest(
-            `/api/v1/accounts/${id}`
-        );
-
-    },
-
-    getByMerchant(merchantId) {
-
-        return apiRequest(
-            `/api/v1/accounts/merchant/${merchantId}`
-        );
-
-    },
-
-    getBalance(id) {
-
-        return apiRequest(
-            `/api/v1/accounts/${id}/balance`
-        );
-
-    },
-
-    create(data) {
-
-        return apiRequest(
-            "/api/v1/accounts",
-            {
-                method: "POST",
-                body: data
-            }
-        );
-
-    }
-
+    create: (data) =>
+        apiRequest("/api/v1/accounts", {
+            method: "POST",
+            body: data
+        })
 };
 
 

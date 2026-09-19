@@ -1189,3 +1189,194 @@
 
     max-width: 800px !important;
 }
+
+/* ============================================================
+   ACCOUNT MODAL
+   ============================================================ */
+
+.account-modal {
+    position: fixed !important;
+
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    z-index: 9999 !important;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+}
+
+
+.account-modal.hidden {
+    display: none !important;
+}
+
+
+.account-modal .modal-backdrop {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 9998 !important;
+}
+
+
+.account-modal .modal-content {
+    position: relative !important;
+
+    z-index: 10000 !important;
+
+    width: min(650px, calc(100vw - 48px)) !important;
+
+    max-width: 650px !important;
+
+    margin: 0 auto !important;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.25);
+
+    overflow: hidden;
+}
+
+
+.account-modal .modal-content.modal-lg {
+    width: min(800px, calc(100vw - 48px)) !important;
+
+    max-width: 800px !important;
+}
+
+
+/* Account balance card */
+
+.account-balance-card {
+    margin: 24px 26px 0;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+}
+
+
+.account-balance-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+    color: #64748b;
+}
+
+
+.account-balance-value {
+    font-size: 30px;
+
+    font-weight: 700;
+
+    color: #1d4ed8;
+}
+
+
+.account-balance-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.account-modal #account-details-content {
+    padding-bottom: 24px;
+}
+
+
+.balance-value {
+    font-size: 14px;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+.form-help {
+    margin-top: 2px;
+
+    font-size: 12px;
+
+    color: #6b7280;
+}
+
+
+@media (max-width: 700px) {
+
+    .account-modal {
+        padding: 12px;
+    }
+
+    .account-modal .modal-content,
+    .account-modal .modal-content.modal-lg {
+        width: calc(100vw - 24px) !important;
+
+        max-width: none !important;
+
+        max-height: calc(100vh - 24px);
+
+        overflow-y: auto;
+
+        border-radius: 12px;
+    }
+
+    .account-balance-card {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
