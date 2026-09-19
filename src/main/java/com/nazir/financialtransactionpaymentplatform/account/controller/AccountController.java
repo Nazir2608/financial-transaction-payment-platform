@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,6 +25,11 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public AccountResponse createAccount(@Valid @RequestBody CreateAccountRequest request) {
         return service.createAccount(request);
+    }
+
+    @GetMapping
+    public List<AccountResponse> getAllAccounts() {
+        return service.getAllAccounts();
     }
 
     @GetMapping("/{accountId}")

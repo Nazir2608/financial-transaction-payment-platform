@@ -95,4 +95,8 @@ public class PaymentService {
     public Payment getPaymentForProcessing(UUID paymentId) {
         return paymentRepository.findByIdForUpdate(paymentId).orElseThrow(() -> new RuntimeException("Payment not found: " + paymentId));
     }
+
+    public List<PaymentResponse> getAllPayments() {
+        return paymentRepository.findAll().stream().map(PaymentResponse::from).toList();
+    }
 }

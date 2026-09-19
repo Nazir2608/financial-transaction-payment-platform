@@ -30,6 +30,11 @@ public class PaymentController {
         return service.createPayment(request);
     }
 
+    @GetMapping
+    public List<PaymentResponse> getAllPayments(){
+        return service.getAllPayments();
+    }
+
     @GetMapping("/{paymentId}")
     public PaymentResponse getPayment(@PathVariable UUID paymentId) {
         return service.getPayment(paymentId);

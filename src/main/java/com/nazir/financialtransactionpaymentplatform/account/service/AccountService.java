@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,6 +32,11 @@ public class AccountService {
         Account savedAccount = accountRepository.save(account);
         log.info("Account created successfully. accountId={}, merchantId={}", savedAccount.getId(), request.merchantId());
         return AccountResponse.from(savedAccount);
+    }
+
+    public List<AccountResponse> getAllAccounts() {
+        log.debug("Fetching all accounts");
+        return accountRepository.findAll().stream().map(AccountResponse::from).toList();
     }
 
     public AccountResponse getAccount(UUID accountId) {

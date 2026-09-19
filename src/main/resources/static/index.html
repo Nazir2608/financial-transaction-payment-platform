@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FINCORE Admin</title>
+
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ==========================================
+         SIDEBAR
+         ========================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                F
+            </div>
+
+            <div>
+                <div class="brand-name">
+                    FINCORE
+                </div>
+
+                <div class="brand-subtitle">
+                    Payment Platform
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                MAIN
+            </div>
+
+            <button
+                    class="nav-item active"
+                    data-page="dashboard"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </button>
+
+
+            <div class="nav-section-title">
+                MANAGEMENT
+            </div>
+
+            <button
+                    class="nav-item"
+                    data-page="merchants"
+            >
+                <span class="nav-icon">M</span>
+                <span>Merchants</span>
+            </button>
+
+            <button
+                    class="nav-item"
+                    data-page="customers"
+            >
+                <span class="nav-icon">C</span>
+                <span>Customers</span>
+            </button>
+
+            <button
+                    class="nav-item"
+                    data-page="accounts"
+            >
+                <span class="nav-icon">A</span>
+                <span>Accounts</span>
+            </button>
+
+            <button
+                    class="nav-item"
+                    data-page="orders"
+            >
+                <span class="nav-icon">O</span>
+                <span>Orders</span>
+            </button>
+
+
+            <div class="nav-section-title">
+                PAYMENTS
+            </div>
+
+            <button
+                    class="nav-item"
+                    data-page="payments"
+            >
+                <span class="nav-icon">P</span>
+                <span>Payments</span>
+            </button>
+
+            <button
+                    class="nav-item"
+                    data-page="transactions"
+            >
+                <span class="nav-icon">T</span>
+                <span>Transactions</span>
+            </button>
+
+            <button
+                    class="nav-item"
+                    data-page="ledger"
+            >
+                <span class="nav-icon">L</span>
+                <span>Ledger</span>
+            </button>
+
+
+            <div class="nav-section-title">
+                DEVELOPER
+            </div>
+
+            <button
+                    class="nav-item"
+                    data-page="api-console"
+            >
+                <span class="nav-icon">{ }</span>
+                <span>API Console</span>
+            </button>
+
+            <button
+                    class="nav-item"
+                    data-page="concurrency"
+            >
+                <span class="nav-icon">⚡</span>
+                <span>Concurrency</span>
+            </button>
+
+        </nav>
+
+
+        <!-- Sidebar footer -->
+
+        <div class="sidebar-footer">
+
+            <div class="environment">
+
+                <span class="status-dot"></span>
+
+                <div>
+                    <div class="environment-title">
+                        Local Environment
+                    </div>
+
+                    <div class="environment-url">
+                        localhost:8080
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==========================================
+         MAIN APPLICATION
+         ========================================== -->
+
+    <main class="main-content">
+
+        <!-- Topbar -->
+
+        <header class="topbar">
+
+            <div class="mobile-menu-button" id="mobileMenuButton">
+                ☰
+            </div>
+
+            <div>
+
+                <div
+                        class="breadcrumb"
+                        id="breadcrumb"
+                >
+                    Dashboard
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div
+                        class="api-status"
+                        id="apiStatus"
+                >
+                    <span class="status-dot"></span>
+                    API Connected
+                </div>
+
+                <button
+                        class="icon-button"
+                        id="refreshButton"
+                        title="Refresh"
+                >
+                    ↻
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- Page container -->
+
+        <section
+                class="page-container"
+                id="pageContainer"
+        >
+
+            <!-- ==================================
+                 DASHBOARD
+                 ================================== -->
+
+            <section
+                    class="page active"
+                    id="page-dashboard"
+            >
+
+                <div class="page-header">
+
+                    <div>
+
+                        <h1>
+                            Dashboard
+                        </h1>
+
+                        <p>
+                            Monitor your FINCORE payment platform.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Stats -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Merchants</span>
+                            <span class="stat-icon">M</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardMerchantCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Registered merchants
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Customers</span>
+                            <span class="stat-icon">C</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardCustomerCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Registered customers
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Orders</span>
+                            <span class="stat-icon">O</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardOrderCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Total orders
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Payments</span>
+                            <span class="stat-icon">P</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardPaymentCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Total payments
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Second stats row -->
+
+                <div class="stats-grid stats-grid-secondary">
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Accounts</span>
+                            <span class="stat-icon">A</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardAccountCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Merchant accounts
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Transactions</span>
+                            <span class="stat-icon">T</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardTransactionCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Financial transactions
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>Ledger Entries</span>
+                            <span class="stat-icon">L</span>
+                        </div>
+
+                        <div
+                                class="stat-value"
+                                id="dashboardLedgerCount"
+                        >
+                            -
+                        </div>
+
+                        <div class="stat-label">
+                            Accounting entries
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-card-header">
+                            <span>System</span>
+                            <span class="stat-icon success-icon">✓</span>
+                        </div>
+
+                        <div
+                                class="stat-value system-status"
+                                id="dashboardSystemStatus"
+                        >
+                            Checking...
+                        </div>
+
+                        <div class="stat-label">
+                            Backend status
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Quick actions -->
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>
+                            Quick Actions
+                        </h2>
+
+                        <p>
+                            Frequently used operations.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <button
+                            class="quick-action-card"
+                            data-page="merchants"
+                    >
+                        <span class="quick-action-icon">
+                            +
+                        </span>
+
+                        <span>
+                            Create Merchant
+                        </span>
+                    </button>
+
+
+                    <button
+                            class="quick-action-card"
+                            data-page="customers"
+                    >
+                        <span class="quick-action-icon">
+                            +
+                        </span>
+
+                        <span>
+                            Create Customer
+                        </span>
+                    </button>
+
+
+                    <button
+                            class="quick-action-card"
+                            data-page="orders"
+                    >
+                        <span class="quick-action-icon">
+                            +
+                        </span>
+
+                        <span>
+                            Create Order
+                        </span>
+                    </button>
+
+
+                    <button
+                            class="quick-action-card"
+                            data-page="payments"
+                    >
+                        <span class="quick-action-icon">
+                            +
+                        </span>
+
+                        <span>
+                            Create Payment
+                        </span>
+                    </button>
+
+
+                    <button
+                            class="quick-action-card"
+                            data-page="api-console"
+                    >
+                        <span class="quick-action-icon">
+                            { }
+                        </span>
+
+                        <span>
+                            API Console
+                        </span>
+                    </button>
+
+                </div>
+
+
+                <!-- System architecture -->
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Payment Flow
+                        </h2>
+
+                        <p>
+                            FINCORE transaction processing flow.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-step">
+
+                        <div class="flow-icon">
+                            C
+                        </div>
+
+                        <div class="flow-title">
+                            Customer
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-step">
+
+                        <div class="flow-icon">
+                            O
+                        </div>
+
+                        <div class="flow-title">
+                            Order
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-step">
+
+                        <div class="flow-icon">
+                            P
+                        </div>
+
+                        <div class="flow-title">
+                            Payment
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-step">
+
+                        <div class="flow-icon">
+                            T
+                        </div>
+
+                        <div class="flow-title">
+                            Transaction
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-step">
+
+                        <div class="flow-icon">
+                            L
+                        </div>
+
+                        <div class="flow-title">
+                            Ledger
+                        </div>
+
+                    </div>
+
+
+                    <div class="flow-arrow">
+                        →
+                    </div>
+
+
+                    <div class="flow-step">
+
+                        <div class="flow-icon">
+                            A
+                        </div>
+
+                        <div class="flow-title">
+                            Account
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Recent activity -->
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Recent Transactions
+                        </h2>
+
+                        <p>
+                            Latest financial activity.
+                        </p>
+
+                    </div>
+
+                    <button
+                            class="secondary-button"
+                            data-page="transactions"
+                    >
+                        View All
+                    </button>
+
+                </div>
+
+
+                <div class="table-card">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+                                <th>Transaction</th>
+                                <th>Payment</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="recentTransactionsTable">
+
+                            <tr>
+
+                                <td
+                                        colspan="6"
+                                        class="empty-state"
+                                >
+                                    Loading transactions...
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================
+                 OTHER PAGES
+                 ================================== -->
+
+            <section
+                    class="page"
+                    id="page-merchants"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-customers"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-accounts"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-orders"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-payments"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-transactions"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-ledger"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-api-console"
+            ></section>
+
+
+            <section
+                    class="page"
+                    id="page-concurrency"
+            ></section>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- Toast notification -->
+
+<div
+        id="toastContainer"
+        class="toast-container"
+></div>
+
+
+<!-- Loading overlay -->
+
+<div
+        id="loadingOverlay"
+        class="loading-overlay hidden"
+>
+
+    <div class="loading-spinner"></div>
+
+    <div class="loading-text">
+        Processing...
+    </div>
+
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/utils.js"></script>
+
+<script src="/js/dashboard.js?v=2"></script>
+<script src="/js/merchants.js"></script>
+<script src="/js/customers.js?v=1"></script>
+
+<script src="/js/app.js?v=2"></script>
+</body>
+</html>
