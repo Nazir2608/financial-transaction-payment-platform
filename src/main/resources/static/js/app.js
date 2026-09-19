@@ -164,6 +164,12 @@ function navigateToPage(pageName) {
         case "orders":
                 renderOrdersPage();
                 break;
+        case "payments":
+                renderPaymentsPage();
+                break;
+        case "transactions":
+            renderTransactionsPage();
+            break;
 
         default:
 

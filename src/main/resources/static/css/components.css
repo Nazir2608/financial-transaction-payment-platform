@@ -1534,3 +1534,332 @@
         margin-right: 20px;
     }
 }
+
+/* ============================================================
+   TRANSACTION MODAL - FINAL
+   ============================================================ */
+
+.transaction-modal {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    box-sizing: border-box;
+
+    z-index: 99999 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 24px !important;
+
+    margin: 0 !important;
+}
+
+
+/* Hidden */
+.transaction-modal.hidden {
+    display: none !important;
+}
+
+
+/* ============================================================
+   BACKDROP
+   ============================================================ */
+
+.transaction-modal .modal-backdrop {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    margin: 0 !important;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 1 !important;
+}
+
+
+/* ============================================================
+   MODAL CONTENT
+   ============================================================ */
+
+.transaction-modal .modal-content {
+    position: fixed !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    width: min(650px, calc(100vw - 48px)) !important;
+
+    max-width: 650px !important;
+
+    max-height: calc(100vh - 48px) !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.25);
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    z-index: 2 !important;
+}
+
+
+/* Large details modal */
+.transaction-modal .modal-content.modal-lg {
+    width: min(850px, calc(100vw - 48px)) !important;
+
+    max-width: 850px !important;
+}
+
+
+/* ============================================================
+   TRANSACTION SUMMARY
+   ============================================================ */
+
+.transaction-summary-card {
+    margin: 24px 26px 0;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+}
+
+
+.transaction-summary-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+    color: #64748b;
+}
+
+
+.transaction-summary-value {
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #1d4ed8;
+}
+
+
+/* ============================================================
+   TRANSACTION TYPE
+   ============================================================ */
+
+.transaction-type {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.transaction-type.debit {
+    background: #fff7ed;
+
+    color: #c2410c;
+}
+
+
+.transaction-type.credit {
+    background: #ecfdf5;
+
+    color: #15803d;
+}
+
+
+.transaction-reference {
+    max-width: 180px;
+
+    display: inline-block;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   SUCCESS MESSAGE
+   ============================================================ */
+
+.transaction-success-info {
+    margin: 20px 26px 0;
+
+    padding: 16px;
+
+    border-radius: 10px;
+
+    background: #ecfdf5;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+.transaction-success-info strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #166534;
+
+    font-size: 14px;
+}
+
+
+.transaction-success-info p {
+    margin: 0;
+
+    color: #15803d;
+
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   STATUS TRANSITION
+   ============================================================ */
+
+.transaction-status-body {
+    padding: 28px 26px;
+}
+
+
+.status-transition {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+}
+
+
+.status-transition-current {
+    display: inline-flex;
+
+    align-items: center;
+}
+
+
+.status-arrow {
+    font-size: 22px;
+
+    color: #9ca3af;
+}
+
+
+.status-transition select {
+    min-width: 140px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    outline: none;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .transaction-modal {
+        padding: 12px !important;
+    }
+
+
+    .transaction-modal .modal-content,
+    .transaction-modal .modal-content.modal-lg {
+
+        top: 50% !important;
+        left: 50% !important;
+
+        width: calc(100vw - 24px) !important;
+
+        max-width: none !important;
+
+        max-height: calc(100vh - 24px) !important;
+
+        transform: translate(-50%, -50%) !important;
+
+        border-radius: 12px;
+    }
+
+
+    .transaction-summary-card {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+
+    .status-transition {
+        flex-direction: column;
+    }
+}

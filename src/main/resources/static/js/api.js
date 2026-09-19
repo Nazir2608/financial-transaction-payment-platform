@@ -289,61 +289,37 @@ const orderApi = {
 
 const paymentApi = {
 
-    getAll() {
+    getAll: () =>
+        apiRequest("/api/v1/payments"),
 
-        return apiRequest(
-            "/api/v1/payments"
-        );
+    getById: (paymentId) =>
+        apiRequest(`/api/v1/payments/${paymentId}`),
 
-    },
+    create: (data) =>
+        apiRequest("/api/v1/payments", {
+            method: "POST",
+            body: data
+        }),
 
-    getById(id) {
-
-        return apiRequest(
-            `/api/v1/payments/${id}`
-        );
-
-    },
-
-    create(data) {
-
-        return apiRequest(
-            "/api/v1/payments",
-            {
-                method: "POST",
-                body: data
-            }
-        );
-
-    },
-
-    updateStatus(id, status) {
-
-        return apiRequest(
-            `/api/v1/payments/${id}/status`,
+    updateStatus: (paymentId, status) =>
+        apiRequest(
+            `/api/v1/payments/${paymentId}/status`,
             {
                 method: "PATCH",
                 body: {
                     status: status
                 }
             }
-        );
+        ),
 
-    },
-
-    process(id) {
-
-        return apiRequest(
-            `/api/v1/payments/${id}/process`,
+    process: (paymentId) =>
+        apiRequest(
+            `/api/v1/payments/${paymentId}/process`,
             {
                 method: "POST"
             }
-        );
-
-    }
-
+        )
 };
-
 
 /* ============================================
    TRANSACTION
@@ -351,56 +327,35 @@ const paymentApi = {
 
 const transactionApi = {
 
-    getAll() {
+    getAll: () =>
+        apiRequest("/api/v1/transactions"),
 
-        return apiRequest(
-            "/api/v1/transactions"
-        );
+    getById: (transactionId) =>
+        apiRequest(
+            `/api/v1/transactions/${transactionId}`
+        ),
 
-    },
-
-    getById(id) {
-
-        return apiRequest(
-            `/api/v1/transactions/${id}`
-        );
-
-    },
-
-    getByPayment(paymentId) {
-
-        return apiRequest(
+    getByPayment: (paymentId) =>
+        apiRequest(
             `/api/v1/transactions/payment/${paymentId}`
-        );
+        ),
 
-    },
+    create: (data) =>
+        apiRequest("/api/v1/transactions", {
+            method: "POST",
+            body: data
+        }),
 
-    create(data) {
-
-        return apiRequest(
-            "/api/v1/transactions",
-            {
-                method: "POST",
-                body: data
-            }
-        );
-
-    },
-
-    updateStatus(id, status) {
-
-        return apiRequest(
-            `/api/v1/transactions/${id}/status`,
+    updateStatus: (transactionId, status) =>
+        apiRequest(
+            `/api/v1/transactions/${transactionId}/status`,
             {
                 method: "PATCH",
                 body: {
                     status: status
                 }
             }
-        );
-
-    }
-
+        )
 };
 
 
