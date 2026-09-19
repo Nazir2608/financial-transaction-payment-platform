@@ -1863,3 +1863,1108 @@
         flex-direction: column;
     }
 }
+
+/* ============================================================
+   LEDGER PAGE
+   ============================================================ */
+
+.ledger-summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+
+.ledger-stat-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 18px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+
+.ledger-stat-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 17px;
+
+    font-weight: 700;
+}
+
+
+.ledger-stat-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+
+.ledger-stat-value {
+    display: block;
+
+    color: #111827;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+
+.ledger-stat-card.credit-card
+.ledger-stat-icon {
+    background: #ecfdf5;
+
+    color: #15803d;
+}
+
+
+.ledger-stat-card.debit-card
+.ledger-stat-icon {
+    background: #fff7ed;
+
+    color: #c2410c;
+}
+
+
+.ledger-stat-card.balance-card
+.ledger-stat-icon {
+    background: #f5f3ff;
+
+    color: #7c3aed;
+}
+
+
+/* ============================================================
+   LEDGER TYPE
+   ============================================================ */
+
+.ledger-type {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.ledger-type.credit {
+    background: #ecfdf5;
+
+    color: #15803d;
+}
+
+
+.ledger-type.debit {
+    background: #fff7ed;
+
+    color: #c2410c;
+}
+
+
+.ledger-type.large {
+    padding: 7px 12px;
+
+    font-size: 12px;
+}
+
+
+.ledger-description {
+    display: inline-block;
+
+    max-width: 220px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    vertical-align: middle;
+
+    color: #4b5563;
+}
+
+
+/* ============================================================
+   LEDGER DETAILS MODAL
+   ============================================================ */
+
+.ledger-modal {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    box-sizing: border-box;
+
+    z-index: 99999 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 24px !important;
+
+    margin: 0 !important;
+}
+
+
+.ledger-modal.hidden {
+    display: none !important;
+}
+
+
+.ledger-modal .modal-backdrop {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    margin: 0 !important;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 1 !important;
+}
+
+
+.ledger-modal .modal-content {
+    position: fixed !important;
+
+    top: 50% !important;
+    left: 50% !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    width: min(650px, calc(100vw - 48px)) !important;
+
+    max-width: 650px !important;
+
+    max-height: calc(100vh - 48px) !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.25);
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    z-index: 2 !important;
+}
+
+
+.ledger-modal .modal-content.modal-lg {
+    width: min(850px, calc(100vw - 48px)) !important;
+
+    max-width: 850px !important;
+}
+
+
+/* ============================================================
+   LEDGER SUMMARY IN MODAL
+   ============================================================ */
+
+.ledger-summary-card {
+    margin: 24px 26px 0;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+}
+
+
+.ledger-summary-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+    color: #64748b;
+}
+
+
+.ledger-summary-value {
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #1d4ed8;
+}
+
+
+/* ============================================================
+   ACCOUNT BALANCE MODAL
+   ============================================================ */
+
+.ledger-account-balance {
+    padding: 32px 26px;
+
+    text-align: center;
+}
+
+
+.ledger-account-balance-label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.ledger-account-balance-value {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: #1d4ed8;
+
+    font-size: 34px;
+
+    font-weight: 700;
+}
+
+
+.ledger-account-id {
+    display: block;
+
+    color: #6b7280;
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+    font-size: 11px;
+
+    word-break: break-all;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 1000px) {
+
+    .ledger-summary-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .ledger-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .ledger-modal {
+        padding: 12px !important;
+    }
+
+
+    .ledger-modal .modal-content,
+    .ledger-modal .modal-content.modal-lg {
+
+        top: 50% !important;
+        left: 50% !important;
+
+        width: calc(100vw - 24px) !important;
+
+        max-width: none !important;
+
+        max-height: calc(100vh - 24px) !important;
+
+        transform: translate(-50%, -50%) !important;
+
+        border-radius: 12px;
+    }
+
+
+    .ledger-summary-card {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+/* ============================================================
+   API CONSOLE
+   ============================================================ */
+
+.api-console-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(0, 0.95fr);
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+
+.api-request-card,
+.api-response-card {
+    min-width: 0;
+}
+
+
+.api-console-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.api-console-card-header h2 {
+    margin: 0 0 4px;
+
+    color: #111827;
+
+    font-size: 16px;
+}
+
+
+.api-console-card-header p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   QUICK ENDPOINTS
+   ============================================================ */
+
+.api-quick-section {
+    padding: 18px 22px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.api-section-label {
+    margin-bottom: 10px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.api-quick-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+
+.api-quick-btn {
+    padding: 7px 11px;
+
+    border: 1px solid #dbe3ef;
+
+    border-radius: 7px;
+
+    background: #f8fafc;
+
+    color: #374151;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.api-quick-btn:hover {
+    background: #eff6ff;
+
+    border-color: #bfdbfe;
+
+    color: #1d4ed8;
+}
+
+
+/* ============================================================
+   REQUEST LINE
+   ============================================================ */
+
+.api-request-line {
+    display: grid;
+
+    grid-template-columns: 105px minmax(0, 1fr) auto;
+
+    gap: 8px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.api-request-line select,
+.api-request-line input {
+    min-width: 0;
+
+    height: 40px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    outline: none;
+
+    font-size: 12px;
+}
+
+
+.api-request-line select {
+    padding: 0 10px;
+
+    font-weight: 700;
+}
+
+
+.api-request-line input {
+    padding: 0 12px;
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+}
+
+
+.api-request-line input:focus,
+.api-request-line select:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+
+.api-send-btn {
+    height: 40px;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   CONSOLE SECTIONS
+   ============================================================ */
+
+.api-console-section {
+    padding: 18px 22px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.api-console-section:last-child {
+    border-bottom: none;
+}
+
+
+.api-console-section-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+}
+
+
+.api-console-section-header h3 {
+    margin: 0 0 3px;
+
+    color: #374151;
+
+    font-size: 13px;
+}
+
+
+.api-console-section-header span {
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+
+.btn-small {
+    padding: 6px 9px;
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   HEADERS
+   ============================================================ */
+
+.api-header-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1.3fr)
+        34px;
+
+    gap: 7px;
+
+    margin-bottom: 7px;
+}
+
+
+.api-header-row input {
+    min-width: 0;
+
+    height: 34px;
+
+    box-sizing: border-box;
+
+    padding: 0 9px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 11px;
+}
+
+
+.api-header-row input:focus {
+    border-color: #2563eb;
+}
+
+
+.api-remove-header {
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #9ca3af;
+
+    cursor: pointer;
+}
+
+
+.api-remove-header:hover {
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    border-color: #fecaca;
+}
+
+
+/* ============================================================
+   JSON EDITOR
+   ============================================================ */
+
+.api-json-editor,
+.api-response-editor {
+    width: 100%;
+
+    min-height: 180px;
+
+    box-sizing: border-box;
+
+    padding: 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #0f172a;
+
+    color: #e2e8f0;
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+    outline: none;
+
+    resize: vertical;
+}
+
+
+.api-json-editor:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+
+/* ============================================================
+   RESPONSE
+   ============================================================ */
+
+.api-response-card {
+    position: sticky;
+
+    top: 20px;
+}
+
+
+.api-response-meta {
+    display: flex;
+
+    gap: 8px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+
+.api-response-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 18px 22px 0;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+}
+
+
+.api-response-status.empty {
+    background: #f8fafc;
+
+    color: #64748b;
+}
+
+
+.api-response-status.success {
+    background: #ecfdf5;
+
+    color: #166534;
+}
+
+
+.api-response-status.error {
+    background: #fef2f2;
+
+    color: #991b1b;
+}
+
+
+.api-status-code {
+    font-weight: 800;
+}
+
+
+.api-response-tabs {
+    display: flex;
+
+    gap: 2px;
+
+    margin: 18px 22px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+.api-response-tab {
+    padding: 9px 13px;
+
+    border: none;
+
+    border-bottom: 2px solid transparent;
+
+    background: transparent;
+
+    color: #6b7280;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.api-response-tab.active {
+    border-bottom-color: #2563eb;
+
+    color: #2563eb;
+}
+
+
+.api-response-tab-content {
+    display: none;
+
+    padding: 16px 22px 22px;
+}
+
+
+.api-response-tab-content.active {
+    display: block;
+}
+
+
+.api-response-toolbar {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 8px;
+
+    color: #6b7280;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.api-response-editor {
+    min-height: 380px;
+
+    margin: 0;
+
+    overflow: auto;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+}
+
+
+/* ============================================================
+   HISTORY
+   ============================================================ */
+
+.api-history-empty {
+    padding: 14px;
+
+    border: 1px dashed #d1d5db;
+
+    border-radius: 8px;
+
+    color: #9ca3af;
+
+    text-align: center;
+
+    font-size: 11px;
+}
+
+
+.api-history-item {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 58px minmax(0, 1fr) 45px;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 9px;
+
+    margin-bottom: 5px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+
+.api-history-item:hover {
+    background: #f8fafc;
+
+    border-color: #cbd5e1;
+}
+
+
+.api-history-method {
+    padding: 4px 5px;
+
+    border-radius: 5px;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+
+.api-history-method.get {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+
+.api-history-method.post {
+    background: #ecfdf5;
+    color: #15803d;
+}
+
+
+.api-history-method.put,
+.api-history-method.patch {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+
+.api-history-method.delete {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+
+.api-history-url {
+    overflow: hidden;
+
+    color: #475569;
+
+    font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.api-history-status {
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-align: right;
+}
+
+
+.api-history-status.success {
+    color: #15803d;
+}
+
+
+.api-history-status.error {
+    color: #dc2626;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .api-console-layout {
+        grid-template-columns: 1fr;
+    }
+
+
+    .api-response-card {
+        position: static;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .api-request-line {
+        grid-template-columns: 1fr;
+    }
+
+
+    .api-request-line select,
+    .api-request-line input,
+    .api-send-btn {
+        width: 100%;
+    }
+
+
+    .api-header-row {
+        grid-template-columns: 1fr;
+    }
+
+
+    .api-remove-header {
+        width: 100%;
+    }
+
+
+    .api-console-card-header {
+        align-items: flex-start;
+    }
+
+
+    .api-response-editor {
+        min-height: 280px;
+    }
+}

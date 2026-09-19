@@ -170,6 +170,12 @@ function navigateToPage(pageName) {
         case "transactions":
             renderTransactionsPage();
             break;
+        case "ledger":
+            renderLedgerPage();
+            break;
+        case "api-console":
+            renderApiConsolePage();
+            break;
 
         default:
 

@@ -365,56 +365,32 @@ const transactionApi = {
 
 const ledgerApi = {
 
-    getAll() {
+    getAll: () =>
+        apiRequest("/api/v1/ledger-entries"),
 
-        return apiRequest(
-            "/api/v1/ledger-entries"
-        );
+    getById: (ledgerEntryId) =>
+        apiRequest(
+            `/api/v1/ledger-entries/${ledgerEntryId}`
+        ),
 
-    },
-
-    getById(id) {
-
-        return apiRequest(
-            `/api/v1/ledger-entries/${id}`
-        );
-
-    },
-
-    getByTransaction(transactionId) {
-
-        return apiRequest(
+    getByTransaction: (transactionId) =>
+        apiRequest(
             `/api/v1/ledger-entries/transaction/${transactionId}`
-        );
+        ),
 
-    },
-
-    getByAccount(accountId) {
-
-        return apiRequest(
+    getByAccount: (accountId) =>
+        apiRequest(
             `/api/v1/ledger-entries/account/${accountId}`
-        );
+        ),
 
-    },
-
-    getBalance(accountId) {
-
-        return apiRequest(
+    getBalance: (accountId) =>
+        apiRequest(
             `/api/v1/ledger-entries/account/${accountId}/balance`
-        );
+        ),
 
-    },
-
-    create(data) {
-
-        return apiRequest(
-            "/api/v1/ledger-entries",
-            {
-                method: "POST",
-                body: data
-            }
-        );
-
-    }
-
+    create: (data) =>
+        apiRequest("/api/v1/ledger-entries", {
+            method: "POST",
+            body: data
+        })
 };
