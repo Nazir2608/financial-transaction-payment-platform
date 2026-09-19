@@ -22,8 +22,3 @@ server:
 logging:
   level:
     com.nazir.financialtransactionpaymentplatform: DEBUG
-
-    org.hibernate.SQL: DEBUG
-    org.hibernate.orm.jdbc.bind: TRACE
-
-    org.springframework.transaction: TRACE
