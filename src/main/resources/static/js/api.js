@@ -248,64 +248,38 @@ const accountApi = {
 
 const orderApi = {
 
-    getAll() {
+    getAll: () =>
+        apiRequest("/api/v1/orders"),
 
-        return apiRequest(
-            "/api/v1/orders"
-        );
+    getById: (orderId) =>
+        apiRequest(`/api/v1/orders/${orderId}`),
 
-    },
-
-    getById(id) {
-
-        return apiRequest(
-            `/api/v1/orders/${id}`
-        );
-
-    },
-
-    getByMerchant(merchantId) {
-
-        return apiRequest(
+    getByMerchant: (merchantId) =>
+        apiRequest(
             `/api/v1/orders/merchant/${merchantId}`
-        );
+        ),
 
-    },
-
-    getByCustomer(customerId) {
-
-        return apiRequest(
+    getByCustomer: (customerId) =>
+        apiRequest(
             `/api/v1/orders/customer/${customerId}`
-        );
+        ),
 
-    },
+    create: (data) =>
+        apiRequest("/api/v1/orders", {
+            method: "POST",
+            body: data
+        }),
 
-    create(data) {
-
-        return apiRequest(
-            "/api/v1/orders",
-            {
-                method: "POST",
-                body: data
-            }
-        );
-
-    },
-
-    updateStatus(id, status) {
-
-        return apiRequest(
-            `/api/v1/orders/${id}/status`,
+    updateStatus: (orderId, status) =>
+        apiRequest(
+            `/api/v1/orders/${orderId}/status`,
             {
                 method: "PATCH",
                 body: {
                     status: status
                 }
             }
-        );
-
-    }
-
+        )
 };
 
 

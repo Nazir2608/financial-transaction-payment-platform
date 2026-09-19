@@ -1380,3 +1380,157 @@
         margin-right: 20px;
     }
 }
+
+/* ============================================================
+   ORDER MODAL
+   ============================================================ */
+
+.order-modal {
+    position: fixed !important;
+
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    z-index: 9999 !important;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    box-sizing: border-box;
+}
+
+
+.order-modal.hidden {
+    display: none !important;
+}
+
+
+.order-modal .modal-backdrop {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    background: rgba(15, 23, 42, 0.55);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 9998 !important;
+}
+
+
+.order-modal .modal-content {
+    position: relative !important;
+
+    z-index: 10000 !important;
+
+    width: min(700px, calc(100vw - 48px)) !important;
+
+    max-width: 700px !important;
+
+    margin: 0 auto !important;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 60px rgba(15, 23, 42, 0.25);
+
+    overflow: hidden;
+}
+
+
+.order-modal .modal-content.modal-lg {
+    width: min(850px, calc(100vw - 48px)) !important;
+
+    max-width: 850px !important;
+}
+
+
+/* Order summary */
+
+.order-summary-card {
+    margin: 24px 26px 0;
+
+    padding: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+}
+
+
+.order-summary-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+    color: #64748b;
+}
+
+
+.order-summary-value {
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #1d4ed8;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .order-modal {
+        padding: 12px;
+    }
+
+    .order-modal .modal-content,
+    .order-modal .modal-content.modal-lg {
+
+        width: calc(100vw - 24px) !important;
+
+        max-width: none !important;
+
+        max-height: calc(100vh - 24px);
+
+        overflow-y: auto;
+
+        border-radius: 12px;
+    }
+
+    .order-summary-card {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}

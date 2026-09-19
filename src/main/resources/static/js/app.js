@@ -161,6 +161,10 @@ function navigateToPage(pageName) {
                 renderAccountsPage();
                 break;
 
+        case "orders":
+                renderOrdersPage();
+                break;
+
         default:
 
             console.log(
