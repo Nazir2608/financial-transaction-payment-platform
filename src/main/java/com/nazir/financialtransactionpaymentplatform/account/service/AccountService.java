@@ -58,4 +58,12 @@ public class AccountService {
         log.debug("Fetching account entity for merchantId={}", merchantId);
         return accountRepository.findByMerchantId(merchantId).orElseThrow(() -> new ResourceNotFoundException("Account not found for merchant: " + merchantId));
     }
+
+    public Account getAccountForUpdate(UUID accountId) {
+        log.debug("Acquiring pessimistic write lock for accountId={}", accountId);
+        Account account = accountRepository.findByIdForUpdate(accountId).orElseThrow(() -> new ResourceNotFoundException("Account not found: " + accountId));
+        log.debug("Account locked successfully. accountId={}, currentBalance={}", accountId, account.getBalance());
+        return account;
+    }
+
 }
