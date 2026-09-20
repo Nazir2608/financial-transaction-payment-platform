@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.payment.service;
 
+import com.nazir.financialtransactionpaymentplatform.common.exception.BusinessException;
 import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import com.nazir.financialtransactionpaymentplatform.order.entity.Order;
 import com.nazir.financialtransactionpaymentplatform.order.repository.OrderRepository;
@@ -74,7 +75,7 @@ public class PaymentService {
     private void validateStatusTransition(PaymentStatus currentStatus, PaymentStatus newStatus) {
 
         if (currentStatus == newStatus) {
-            throw new IllegalArgumentException("Payment is already in status: " + currentStatus);
+            throw new BusinessException("Payment is already in status: " + currentStatus);
         }
 
         boolean valid = switch (currentStatus) {
@@ -84,7 +85,7 @@ public class PaymentService {
         };
 
         if (!valid) {
-            throw new IllegalArgumentException("Invalid payment status transition: " + currentStatus + " -> " + newStatus);
+            throw new BusinessException("Invalid payment status transition: " + currentStatus + " -> " + newStatus);
         }
     }
 

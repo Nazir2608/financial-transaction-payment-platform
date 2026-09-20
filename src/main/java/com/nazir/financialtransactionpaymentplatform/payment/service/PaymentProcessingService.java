@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.payment.service;
 
+import com.nazir.financialtransactionpaymentplatform.common.exception.BusinessException;
 import com.nazir.financialtransactionpaymentplatform.ledger.entity.LedgerEntryType;
 import com.nazir.financialtransactionpaymentplatform.ledger.service.LedgerService;
 import com.nazir.financialtransactionpaymentplatform.order.entity.Order;
@@ -44,7 +45,7 @@ public class PaymentProcessingService {
         // 2. Payment must be SUCCESS
         if (payment.getStatus() != PaymentStatus.SUCCESS) {
             log.warn("Payment processing rejected. paymentId={}, status={}", paymentId, payment.getStatus());
-            throw new IllegalArgumentException("Payment must be SUCCESS before processing");
+            throw new BusinessException("Payment must be SUCCESS before processing");
         }
 
         // 3. Idempotency check
@@ -63,7 +64,7 @@ public class PaymentProcessingService {
 
             log.warn("Payment amount validation failed. paymentId={}, orderNumber={}, paymentAmount={}, orderAmount={}", paymentId, order.getOrderNumber(), payment.getAmount(), order.getAmount());
 
-            throw new IllegalArgumentException("Payment amount does not match order amount");
+            throw new BusinessException("Payment amount does not match order amount");
         }
 
         log.debug("Payment amount validated successfully. paymentId={}, orderNumber={}", paymentId, order.getOrderNumber());

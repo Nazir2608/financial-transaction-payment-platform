@@ -3,6 +3,7 @@ package com.nazir.financialtransactionpaymentplatform.ledger.service;
 import com.nazir.financialtransactionpaymentplatform.account.entity.Account;
 import com.nazir.financialtransactionpaymentplatform.account.entity.AccountStatus;
 import com.nazir.financialtransactionpaymentplatform.account.repository.AccountRepository;
+import com.nazir.financialtransactionpaymentplatform.common.exception.BusinessException;
 import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import com.nazir.financialtransactionpaymentplatform.ledger.dto.CreateLedgerEntryRequest;
 import com.nazir.financialtransactionpaymentplatform.ledger.dto.LedgerEntryResponse;
@@ -41,7 +42,7 @@ public class LedgerService {
 
         if (account.getStatus() != AccountStatus.ACTIVE) {
             log.warn("Ledger creation failed. Account is not active. accountId={}, status={}", account.getId(), account.getStatus());
-            throw new IllegalArgumentException("Account is not active: " + account.getId());
+            throw new BusinessException("Account is not active: " + account.getId());
         }
 
         BigDecimal currentBalance = account.getBalance();
@@ -132,7 +133,7 @@ public class LedgerService {
         if (account.getStatus() != AccountStatus.ACTIVE) {
             log.warn("Ledger creation failed. Account is not active. accountId={}, status={}", account.getId(), account.getStatus());
 
-            throw new IllegalArgumentException("Account is not active: " + account.getId());
+            throw new BusinessException("Account is not active: " + account.getId());
         }
 
         BigDecimal currentBalance = account.getBalance();

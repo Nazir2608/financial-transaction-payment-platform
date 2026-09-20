@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.order.service;
 
+import com.nazir.financialtransactionpaymentplatform.common.exception.BusinessException;
 import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import com.nazir.financialtransactionpaymentplatform.customer.entity.Customer;
 import com.nazir.financialtransactionpaymentplatform.customer.repository.CustomerRepository;
@@ -89,7 +90,7 @@ public class OrderService {
     private void validateStatusTransition(OrderStatus currentStatus, OrderStatus newStatus) {
 
         if (currentStatus == newStatus) {
-            throw new IllegalArgumentException("Order is already in status: " + currentStatus);
+            throw new BusinessException("Order is already in status: " + currentStatus);
         }
 
         boolean valid = switch (currentStatus) {
@@ -105,7 +106,7 @@ public class OrderService {
         };
 
         if (!valid) {
-            throw new IllegalArgumentException("Invalid order status transition: " + currentStatus + " -> " + newStatus);
+            throw new BusinessException("Invalid order status transition: " + currentStatus + " -> " + newStatus);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.transaction.service;
 
+import com.nazir.financialtransactionpaymentplatform.common.exception.BusinessException;
 import com.nazir.financialtransactionpaymentplatform.transaction.dto.CreateTransactionRequest;
 import com.nazir.financialtransactionpaymentplatform.transaction.dto.TransactionResponse;
 import com.nazir.financialtransactionpaymentplatform.transaction.dto.UpdateTransactionStatusRequest;
@@ -80,7 +81,7 @@ public class TransactionService {
 
         if (currentStatus == newStatus) {
 
-            throw new IllegalArgumentException("Transaction is already in status: " + currentStatus);
+            throw new BusinessException("Transaction is already in status: " + currentStatus);
         }
 
         boolean valid = switch (currentStatus) {
@@ -91,7 +92,7 @@ public class TransactionService {
         };
 
         if (!valid) {
-            throw new IllegalArgumentException("Invalid transaction status transition: " + currentStatus + " -> " + newStatus);
+            throw new BusinessException("Invalid transaction status transition: " + currentStatus + " -> " + newStatus);
         }
     }
 
