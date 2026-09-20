@@ -29,7 +29,7 @@ public class PaymentController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<PaymentResponse> createPayment(@Valid @RequestBody CreatePaymentRequest request) {
         PaymentResponse response = service.createPayment(request);
-        return ApiResponse.success(response, "Payment created successfully");
+        return ApiResponse.success(response, "Payment request processed successfully");
     }
 
     @GetMapping

@@ -19,4 +19,7 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
     @Query("SELECT p FROM Payment p WHERE p.id=:paymentId")
     Optional<Payment> findByIdForUpdate(@Param("paymentId") UUID paymentId);
 
+    Optional<Payment> findByIdempotencyKey(String idempotencyKey);
+    boolean existsByIdempotencyKey(String idempotencyKey);
+
 }

@@ -10,13 +10,16 @@ import com.nazir.financialtransactionpaymentplatform.payment.dto.UpdatePaymentSt
 import com.nazir.financialtransactionpaymentplatform.payment.entity.Payment;
 import com.nazir.financialtransactionpaymentplatform.payment.entity.PaymentStatus;
 import com.nazir.financialtransactionpaymentplatform.payment.repository.PaymentRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -30,18 +33,36 @@ public class PaymentService {
 
     @Transactional
     public PaymentResponse createPayment(CreatePaymentRequest request) {
+        log.info("Creating payment. orderId={}, idempotencyKey={}", request.getOrderId(), request.getIdempotencyKey());
 
-        Order order = orderRepository.findById(request.orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + request.orderId));
+        // 1. Check for duplicate request
+        Optional<Payment> existingPayment = paymentRepository.findByIdempotencyKey(request.getIdempotencyKey());
 
+        if (existingPayment.isPresent()) {
+            Payment payment = existingPayment.get();
+            log.info("Duplicate payment request detected. paymentId={}, idempotencyKey={}", payment.getId(), request.getIdempotencyKey());
+            return PaymentResponse.from(payment);
+        }
+
+        // 2. Find order
+        Order order = orderRepository.findById(request.getOrderId()).orElseThrow(() -> {
+                    log.warn("Order not found. orderId={}", request.getOrderId());
+                    return new ResourceNotFoundException("Order not found: " + request.getOrderId());
+        });
+
+        // 3. Create payment
         Payment payment = new Payment();
 
         payment.setOrder(order);
-        payment.setAmount(request.amount);
-        payment.setPaymentMethod(request.paymentMethod);
+        payment.setAmount(request.getAmount());
+        payment.setPaymentMethod(request.getPaymentMethod());
         payment.setStatus(PaymentStatus.PENDING);
+        payment.setIdempotencyKey(request.getIdempotencyKey());
 
+        // 4. Save
         Payment savedPayment = paymentRepository.save(payment);
+
+        log.info("Payment created successfully. paymentId={}, orderId={}", savedPayment.getId(), request.getOrderId());
 
         return PaymentResponse.from(savedPayment);
     }
