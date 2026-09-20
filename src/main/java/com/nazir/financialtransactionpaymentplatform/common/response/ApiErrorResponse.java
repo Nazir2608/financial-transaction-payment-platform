@@ -1,4 +1,4 @@
-package com.nazir.financialtransactionpaymentplatform.common.exception;
+package com.nazir.financialtransactionpaymentplatform.common.response;
 
 import java.time.Instant;
 import java.util.Map;

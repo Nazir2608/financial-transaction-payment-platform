@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.common.exception;
 
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;

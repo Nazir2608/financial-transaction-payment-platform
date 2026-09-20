@@ -84,7 +84,7 @@ public class MerchantService {
         return MerchantResponse.from(savedMerchant);
     }
 
-    public ResponseEntity<String> deleteMerchant(UUID merchantId) {
+    public String deleteMerchant(UUID merchantId) {
 
         Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() ->
                 new ResourceNotFoundException("Merchant not found: " + merchantId));
@@ -93,7 +93,7 @@ public class MerchantService {
 
         repository.saveAndFlush(merchant);
 
-        return ResponseEntity.ok("Deleted successfully");
+        return "Merchant deleted successfully";
 
     }
 }

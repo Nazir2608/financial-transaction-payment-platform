@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.merchant.controller;
 
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.CreateMerchantRequest;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.MerchantResponse;
 import com.nazir.financialtransactionpaymentplatform.merchant.dto.UpdateMerchantRequest;
@@ -26,34 +27,41 @@ public class MerchantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MerchantResponse createMerchant(@Valid @RequestBody CreateMerchantRequest request) {
-        return service.createMerchant(request);
+    public ApiResponse<MerchantResponse> createMerchant(@Valid @RequestBody CreateMerchantRequest request) {
+        MerchantResponse response = service.createMerchant(request);
+        return ApiResponse.success(response, "Merchant created successfully");
+
     }
 
     @GetMapping
-    public List<MerchantResponse> findMerchants() {
-        return service.getMerchants();
+    public ApiResponse<List<MerchantResponse>> findMerchants() {
+        List<MerchantResponse> responses = service.getMerchants();
+        return ApiResponse.success(responses,"Merchants fetched successfully");
     }
 
     @GetMapping("/{merchantId}")
-    public MerchantResponse findMerchantById(@PathVariable UUID merchantId) {
-        return service.getMerchant(merchantId);
+    public ApiResponse<MerchantResponse> findMerchantById(@PathVariable UUID merchantId) {
+        MerchantResponse response = service.getMerchant(merchantId);
+        return ApiResponse.success(response,"Merchant fetched successfully");
     }
 
     @PatchMapping("/{merchantId}/status")
-    public MerchantResponse updateMerchantStatus(@PathVariable("merchantId") UUID merchantId, @Valid @RequestBody UpdateMerchantStatusRequest request) {
-        return service.updateMerchantStatus(merchantId, request);
+    public ApiResponse<MerchantResponse> updateMerchantStatus(@PathVariable("merchantId") UUID merchantId, @Valid @RequestBody UpdateMerchantStatusRequest request) {
+        MerchantResponse response = service.updateMerchantStatus(merchantId, request);
+        return ApiResponse.success(response,"Merchant Status updated successfully");
+
     }
 
     @PutMapping("/{merchantId}")
-    public MerchantResponse updateMerchant(@PathVariable UUID merchantId, @Valid @RequestBody UpdateMerchantRequest request) {
-        System.out.println("update request received!!!");
-        return service.updateMerchant(merchantId, request);
+    public ApiResponse<MerchantResponse> updateMerchant(@PathVariable UUID merchantId, @Valid @RequestBody UpdateMerchantRequest request) {
+        MerchantResponse response = service.updateMerchant(merchantId, request);
+        return ApiResponse.success(response,"Merchant updated successfully");
     }
 
     @DeleteMapping("/{merchantId}")
-    public ResponseEntity<String> deleteMerchant(@PathVariable UUID merchantId) {
-        return service.deleteMerchant(merchantId);
+    public ApiResponse<String> deleteMerchant(@PathVariable UUID merchantId) {
+        String response = service.deleteMerchant(merchantId);
+        return ApiResponse.success(response);
     }
 
 }
