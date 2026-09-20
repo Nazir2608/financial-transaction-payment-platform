@@ -3,6 +3,7 @@ package com.nazir.financialtransactionpaymentplatform.account.controller;
 import com.nazir.financialtransactionpaymentplatform.account.dto.AccountResponse;
 import com.nazir.financialtransactionpaymentplatform.account.dto.CreateAccountRequest;
 import com.nazir.financialtransactionpaymentplatform.account.service.AccountService;
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,27 +24,32 @@ public class AccountController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AccountResponse createAccount(@Valid @RequestBody CreateAccountRequest request) {
-        return service.createAccount(request);
+    public ApiResponse<AccountResponse> createAccount(@Valid @RequestBody CreateAccountRequest request) {
+        AccountResponse response = service.createAccount(request);
+        return ApiResponse.success(response,"Account created successfully");
     }
 
     @GetMapping
-    public List<AccountResponse> getAllAccounts() {
-        return service.getAllAccounts();
+    public ApiResponse<List<AccountResponse>> getAllAccounts() {
+         List<AccountResponse> responses= service.getAllAccounts();
+         return ApiResponse.success(responses,"Fetched All Account successfully");
     }
 
     @GetMapping("/{accountId}")
-    public AccountResponse getAccount(@PathVariable UUID accountId) {
-        return service.getAccount(accountId);
+    public ApiResponse<AccountResponse> getAccount(@PathVariable UUID accountId) {
+        AccountResponse response= service.getAccount(accountId);
+         return ApiResponse.success(response,"Account fetched based on account id");
     }
 
     @GetMapping("/merchant/{merchantId}")
-    public AccountResponse getAccountByMerchant(@PathVariable UUID merchantId) {
-        return service.getAccountByMerchant(merchantId);
+    public ApiResponse<AccountResponse> getAccountByMerchant(@PathVariable UUID merchantId) {
+        AccountResponse response= service.getAccountByMerchant(merchantId);
+        return ApiResponse.success(response,"Account fetched based on merchant id");
     }
 
     @GetMapping("/{accountId}/balance")
-    public BigDecimal getBalance(@PathVariable UUID accountId) {
-        return service.getBalance(accountId);
+    public ApiResponse<BigDecimal> getBalance(@PathVariable UUID accountId) {
+        BigDecimal response= service.getBalance(accountId);
+        return ApiResponse.success(response);
     }
 }
