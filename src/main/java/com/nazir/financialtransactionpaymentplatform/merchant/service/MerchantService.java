@@ -71,7 +71,7 @@ public class MerchantService {
         Merchant merchant = repository.findByIdAndDeletedFalse(merchantId).orElseThrow(() -> new ResourceNotFoundException("Merchnat not found: " + merchantId));
 
         if (!merchant.getEmail().equals(request.email) && repository.existsByEmailAndDeletedFalse(request.email)) {
-            throw new IllegalArgumentException("Merchant with email already exist");
+            throw new DuplicateResourceException("Merchant with email already exist");
         }
 
         merchant.setName(request.name);

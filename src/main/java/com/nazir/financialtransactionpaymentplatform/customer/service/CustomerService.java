@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.customer.service;
 
+import com.nazir.financialtransactionpaymentplatform.common.exception.DuplicateResourceException;
 import com.nazir.financialtransactionpaymentplatform.customer.dto.*;
 import com.nazir.financialtransactionpaymentplatform.customer.entity.Customer;
 import com.nazir.financialtransactionpaymentplatform.customer.repository.CustomerRepository;
@@ -22,7 +23,7 @@ public class CustomerService {
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
 
         if (repository.existsByEmailAndDeletedFalse(request.email)) {
-            throw new IllegalArgumentException("Customer with email already exists");
+            throw new DuplicateResourceException("Customer with email already exists");
         }
 
         Customer customer = new Customer();
@@ -58,7 +59,7 @@ public class CustomerService {
                         new ResourceNotFoundException("Customer not found: " + customerId));
 
         if (!customer.getEmail().equals(request.email) && repository.existsByEmailAndDeletedFalse(request.email)) {
-            throw new IllegalArgumentException("Customer with email already exists");
+            throw new DuplicateResourceException("Customer with email already exists");
         }
 
         customer.setName(request.name);

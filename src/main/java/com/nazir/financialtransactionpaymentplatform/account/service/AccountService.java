@@ -4,6 +4,7 @@ import com.nazir.financialtransactionpaymentplatform.account.dto.AccountResponse
 import com.nazir.financialtransactionpaymentplatform.account.dto.CreateAccountRequest;
 import com.nazir.financialtransactionpaymentplatform.account.entity.Account;
 import com.nazir.financialtransactionpaymentplatform.account.repository.AccountRepository;
+import com.nazir.financialtransactionpaymentplatform.common.exception.DuplicateResourceException;
 import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class AccountService {
     public AccountResponse createAccount(CreateAccountRequest request) {
         if (accountRepository.existsByMerchantId(request.merchantId())) {
             log.warn("Account creation failed. Account already exists for merchantId={}", request.merchantId());
-            throw new IllegalArgumentException("Account already exists for merchant: " + request.merchantId());
+            throw new DuplicateResourceException("Account already exists for merchant: " + request.merchantId());
         }
         Account account = new Account();
         account.setMerchantId(request.merchantId());
