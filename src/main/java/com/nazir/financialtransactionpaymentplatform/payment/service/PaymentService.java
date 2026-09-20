@@ -1,6 +1,7 @@
 package com.nazir.financialtransactionpaymentplatform.payment.service;
 
 import com.nazir.financialtransactionpaymentplatform.common.exception.BusinessException;
+import com.nazir.financialtransactionpaymentplatform.common.exception.DuplicateResourceException;
 import com.nazir.financialtransactionpaymentplatform.common.exception.ResourceNotFoundException;
 import com.nazir.financialtransactionpaymentplatform.order.entity.Order;
 import com.nazir.financialtransactionpaymentplatform.order.repository.OrderRepository;
@@ -40,14 +41,22 @@ public class PaymentService {
 
         if (existingPayment.isPresent()) {
             Payment payment = existingPayment.get();
+            boolean sameOrder = payment.getOrder().getId().equals(request.getOrderId());
+            boolean sameAmount = payment.getAmount().compareTo(request.getAmount()) == 0;
+            boolean samePaymentMethod = payment.getPaymentMethod().equals(request.getPaymentMethod());
+
+            if (!sameOrder || !sameAmount || !samePaymentMethod) {
+                log.warn("Idempotency key reused with different request. " + "idempotencyKey={}, paymentId={}", request.getIdempotencyKey(), payment.getId());
+                throw new DuplicateResourceException("Idempotency key already used with different payment details");
+            }
             log.info("Duplicate payment request detected. paymentId={}, idempotencyKey={}", payment.getId(), request.getIdempotencyKey());
             return PaymentResponse.from(payment);
         }
 
         // 2. Find order
         Order order = orderRepository.findById(request.getOrderId()).orElseThrow(() -> {
-                    log.warn("Order not found. orderId={}", request.getOrderId());
-                    return new ResourceNotFoundException("Order not found: " + request.getOrderId());
+            log.warn("Order not found. orderId={}", request.getOrderId());
+            return new ResourceNotFoundException("Order not found: " + request.getOrderId());
         });
 
         // 3. Create payment
