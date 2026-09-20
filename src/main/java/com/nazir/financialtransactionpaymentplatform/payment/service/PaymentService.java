@@ -12,6 +12,7 @@ import com.nazir.financialtransactionpaymentplatform.payment.entity.Payment;
 import com.nazir.financialtransactionpaymentplatform.payment.entity.PaymentStatus;
 import com.nazir.financialtransactionpaymentplatform.payment.repository.PaymentRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +26,13 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
+    private final PaymentPersistenceService paymentPersistenceService;
 
-    public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository) {
+    public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository, PaymentPersistenceService paymentPersistenceService) {
 
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
+        this.paymentPersistenceService = paymentPersistenceService;
     }
 
     @Transactional
@@ -69,10 +72,14 @@ public class PaymentService {
         payment.setIdempotencyKey(request.getIdempotencyKey());
 
         // 4. Save
-        Payment savedPayment = paymentRepository.save(payment);
-
+        Payment savedPayment;
+        try {
+            savedPayment = paymentPersistenceService.save(payment);
+        } catch (DataIntegrityViolationException e) {
+            log.info("Concurrent duplicate payment detected. idempotencyKey={}", request.getIdempotencyKey());
+            savedPayment = paymentRepository.findByIdempotencyKey(request.getIdempotencyKey()).orElseThrow(() -> e);
+        }
         log.info("Payment created successfully. paymentId={}, orderId={}", savedPayment.getId(), request.getOrderId());
-
         return PaymentResponse.from(savedPayment);
     }
 
