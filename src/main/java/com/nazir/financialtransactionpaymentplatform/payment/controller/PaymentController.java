@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.payment.controller;
 
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.CreatePaymentRequest;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.PaymentResponse;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.UpdatePaymentStatusRequest;
@@ -26,33 +27,38 @@ public class PaymentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PaymentResponse createPayment(@Valid @RequestBody CreatePaymentRequest request) {
-        return service.createPayment(request);
+    public ApiResponse<PaymentResponse> createPayment(@Valid @RequestBody CreatePaymentRequest request) {
+        PaymentResponse response = service.createPayment(request);
+        return ApiResponse.success(response, "Payment created successfully");
     }
 
     @GetMapping
-    public List<PaymentResponse> getAllPayments(){
-        return service.getAllPayments();
+    public ApiResponse<List<PaymentResponse>> getAllPayments() {
+        List<PaymentResponse> responses = service.getAllPayments();
+        return ApiResponse.success(responses, "Payments fetched successfully");
     }
 
     @GetMapping("/{paymentId}")
-    public PaymentResponse getPayment(@PathVariable UUID paymentId) {
-        return service.getPayment(paymentId);
+    public ApiResponse<PaymentResponse> getPayment(@PathVariable UUID paymentId) {
+        PaymentResponse response = service.getPayment(paymentId);
+        return ApiResponse.success(response, "Payment fetched successfully");
     }
 
     @GetMapping("/order/{orderId}")
-    public List<PaymentResponse> getPaymentsByOrder(@PathVariable UUID orderId) {
-        return service.getPaymentsByOrder(orderId);
+    public ApiResponse<List<PaymentResponse>> getPaymentsByOrder(@PathVariable UUID orderId) {
+        List<PaymentResponse> responses = service.getPaymentsByOrder(orderId);
+        return ApiResponse.success(responses, "Payments fetched successfully for order");
     }
 
     @PatchMapping("/{paymentId}/status")
-    public PaymentResponse updatePaymentStatus(@PathVariable UUID paymentId, @Valid @RequestBody UpdatePaymentStatusRequest request) {
-        return service.updatePaymentStatus(paymentId, request);
+    public ApiResponse<PaymentResponse> updatePaymentStatus(@PathVariable UUID paymentId, @Valid @RequestBody UpdatePaymentStatusRequest request) {
+        PaymentResponse response = service.updatePaymentStatus(paymentId, request);
+        return ApiResponse.success(response, "Payment status updated successfully");
     }
 
     @PostMapping("/{paymentId}/process")
-    @ResponseStatus(HttpStatus.OK)
-    public void processPayment(@PathVariable UUID paymentId) {
+    public ApiResponse<String> processPayment(@PathVariable UUID paymentId) {
         paymentProcessingService.processPayment(paymentId);
+        return ApiResponse.success("Payment processed successfully");
     }
 }

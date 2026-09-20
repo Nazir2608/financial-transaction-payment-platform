@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.transaction.controller;
 
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import com.nazir.financialtransactionpaymentplatform.transaction.dto.CreateTransactionRequest;
 import com.nazir.financialtransactionpaymentplatform.transaction.dto.TransactionResponse;
 import com.nazir.financialtransactionpaymentplatform.transaction.dto.UpdateTransactionStatusRequest;
@@ -23,27 +24,32 @@ public class TransactionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionResponse createTransaction(@Valid @RequestBody CreateTransactionRequest request) {
-        return service.createTransaction(request);
+    public ApiResponse<TransactionResponse> createTransaction(@Valid @RequestBody CreateTransactionRequest request) {
+        TransactionResponse response = service.createTransaction(request);
+        return ApiResponse.success(response, "Transaction created successfully");
     }
 
     @GetMapping
-    public List<TransactionResponse> getAllTransactions() {
-        return service.getAllTransactions();
+    public ApiResponse<List<TransactionResponse>> getAllTransactions() {
+        List<TransactionResponse> responses = service.getAllTransactions();
+        return ApiResponse.success(responses, "Transactions fetched successfully");
     }
 
     @GetMapping("/{transactionId}")
-    public TransactionResponse getTransaction(@PathVariable UUID transactionId) {
-        return service.getTransaction(transactionId);
+    public ApiResponse<TransactionResponse> getTransaction(@PathVariable UUID transactionId) {
+        TransactionResponse response = service.getTransaction(transactionId);
+        return ApiResponse.success(response, "Transaction fetched successfully");
     }
 
     @GetMapping("/payment/{paymentId}")
-    public List<TransactionResponse> getTransactionsByPayment(@PathVariable UUID paymentId) {
-        return service.getTransactionsByPayment(paymentId);
+    public ApiResponse<List<TransactionResponse>> getTransactionsByPayment(@PathVariable UUID paymentId) {
+        List<TransactionResponse> responses = service.getTransactionsByPayment(paymentId);
+        return ApiResponse.success(responses, "Transactions fetched successfully for payment");
     }
 
     @PatchMapping("/{transactionId}/status")
-    public TransactionResponse updateStatus(@PathVariable UUID transactionId, @Valid @RequestBody UpdateTransactionStatusRequest request) {
-        return service.updateStatus(transactionId, request);
+    public ApiResponse<TransactionResponse> updateStatus(@PathVariable UUID transactionId, @Valid @RequestBody UpdateTransactionStatusRequest request) {
+        TransactionResponse response = service.updateStatus(transactionId, request);
+        return ApiResponse.success(response, "Transaction status updated successfully");
     }
 }

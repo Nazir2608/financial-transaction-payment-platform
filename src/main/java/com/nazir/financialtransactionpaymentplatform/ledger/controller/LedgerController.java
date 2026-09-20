@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.ledger.controller;
 
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import com.nazir.financialtransactionpaymentplatform.ledger.dto.CreateLedgerEntryRequest;
 import com.nazir.financialtransactionpaymentplatform.ledger.dto.LedgerEntryResponse;
 import com.nazir.financialtransactionpaymentplatform.ledger.service.LedgerService;
@@ -23,32 +24,38 @@ public class LedgerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LedgerEntryResponse createLedgerEntry(@Valid @RequestBody CreateLedgerEntryRequest request) {
-        return service.createLedgerEntry(request);
+    public ApiResponse<LedgerEntryResponse> createLedgerEntry(@Valid @RequestBody CreateLedgerEntryRequest request) {
+        LedgerEntryResponse response = service.createLedgerEntry(request);
+        return ApiResponse.success(response, "Ledger entry created successfully");
     }
 
     @GetMapping
-    public List<LedgerEntryResponse> getAllLedgerEntries() {
-        return service.getAllLedgerEntries();
+    public ApiResponse<List<LedgerEntryResponse>> getAllLedgerEntries() {
+        List<LedgerEntryResponse> responses = service.getAllLedgerEntries();
+        return ApiResponse.success(responses, "Ledger entries fetched successfully");
     }
 
     @GetMapping("/{ledgerEntryId}")
-    public LedgerEntryResponse getLedgerEntry(@PathVariable UUID ledgerEntryId) {
-        return service.getLedgerEntry(ledgerEntryId);
+    public ApiResponse<LedgerEntryResponse> getLedgerEntry(@PathVariable UUID ledgerEntryId) {
+        LedgerEntryResponse response = service.getLedgerEntry(ledgerEntryId);
+        return ApiResponse.success(response, "Ledger entry fetched successfully");
     }
 
     @GetMapping("/transaction/{transactionId}")
-    public List<LedgerEntryResponse> getByTransaction(@PathVariable UUID transactionId) {
-        return service.getByTransaction(transactionId);
+    public ApiResponse<List<LedgerEntryResponse>> getByTransaction(@PathVariable UUID transactionId) {
+        List<LedgerEntryResponse> responses = service.getByTransaction(transactionId);
+        return ApiResponse.success(responses, "Ledger entries fetched successfully for transaction");
     }
 
     @GetMapping("/account/{accountId}")
-    public List<LedgerEntryResponse> getByAccount(@PathVariable UUID accountId) {
-        return service.getByAccount(accountId);
+    public ApiResponse<List<LedgerEntryResponse>> getByAccount(@PathVariable UUID accountId) {
+        List<LedgerEntryResponse> responses = service.getByAccount(accountId);
+        return ApiResponse.success(responses, "Ledger entries fetched successfully for account");
     }
 
     @GetMapping("/account/{accountId}/balance")
-    public BigDecimal getAccountBalance(@PathVariable UUID accountId) {
-        return service.getAccountBalance(accountId);
+    public ApiResponse<BigDecimal> getAccountBalance(@PathVariable UUID accountId) {
+        BigDecimal balance = service.getAccountBalance(accountId);
+        return ApiResponse.success(balance, "Account balance fetched successfully");
     }
 }

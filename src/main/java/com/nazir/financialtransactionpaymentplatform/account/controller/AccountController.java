@@ -26,30 +26,30 @@ public class AccountController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<AccountResponse> createAccount(@Valid @RequestBody CreateAccountRequest request) {
         AccountResponse response = service.createAccount(request);
-        return ApiResponse.success(response,"Account created successfully");
+        return ApiResponse.success(response, "Account created successfully");
     }
 
     @GetMapping
     public ApiResponse<List<AccountResponse>> getAllAccounts() {
-         List<AccountResponse> responses= service.getAllAccounts();
-         return ApiResponse.success(responses,"Fetched All Account successfully");
+        List<AccountResponse> responses = service.getAllAccounts();
+        return ApiResponse.success(responses, "Accounts Fetched successfully");
     }
 
     @GetMapping("/{accountId}")
     public ApiResponse<AccountResponse> getAccount(@PathVariable UUID accountId) {
-        AccountResponse response= service.getAccount(accountId);
-         return ApiResponse.success(response,"Account fetched based on account id");
+        AccountResponse response = service.getAccount(accountId);
+        return ApiResponse.success(response, "Account fetched successfully for account");
     }
 
     @GetMapping("/merchant/{merchantId}")
     public ApiResponse<AccountResponse> getAccountByMerchant(@PathVariable UUID merchantId) {
-        AccountResponse response= service.getAccountByMerchant(merchantId);
-        return ApiResponse.success(response,"Account fetched based on merchant id");
+        AccountResponse response = service.getAccountByMerchant(merchantId);
+        return ApiResponse.success(response, "Account fetched successfully for merchant");
     }
 
     @GetMapping("/{accountId}/balance")
     public ApiResponse<BigDecimal> getBalance(@PathVariable UUID accountId) {
-        BigDecimal response= service.getBalance(accountId);
-        return ApiResponse.success(response);
+        BigDecimal balance = service.getBalance(accountId);
+        return ApiResponse.success(balance, "Account balance fetched successfully");
     }
 }

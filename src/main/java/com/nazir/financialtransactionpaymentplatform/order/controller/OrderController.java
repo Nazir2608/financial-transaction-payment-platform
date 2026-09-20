@@ -1,5 +1,6 @@
 package com.nazir.financialtransactionpaymentplatform.order.controller;
 
+import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import com.nazir.financialtransactionpaymentplatform.order.dto.CreateOrderRequest;
 import com.nazir.financialtransactionpaymentplatform.order.dto.OrderResponse;
 import com.nazir.financialtransactionpaymentplatform.order.dto.UpdateOrderStatusRequest;
@@ -23,35 +24,44 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderResponse createOrder(@Valid @RequestBody CreateOrderRequest request) {
-        return service.createOrder(request);
+    public ApiResponse<OrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest request) {
+        OrderResponse response = service.createOrder(request);
+        return ApiResponse.success(response, "Order created successfully");
     }
 
     @GetMapping
-    public List<OrderResponse> getAllOrders() {
-        return service.getAllOrders();
+    public ApiResponse<List<OrderResponse>> getAllOrders() {
+        List<OrderResponse> responses = service.getAllOrders();
+        return ApiResponse.success(responses, "Orders fetched successfully");
+
     }
 
     @GetMapping("/{orderId}")
-    public OrderResponse getOrder(@PathVariable UUID orderId) {
-        return service.getOrder(orderId);
+    public ApiResponse<OrderResponse> getOrder(@PathVariable UUID orderId) {
+        OrderResponse response = service.getOrder(orderId);
+        return ApiResponse.success(response, "Order fetched successfully");
+
     }
 
     @GetMapping("/merchant/{merchantId}")
-    public List<OrderResponse> getOrdersByMerchantId(@PathVariable UUID merchantId) {
-        return service.getOrdersByMerchantId(merchantId);
+    public ApiResponse<List<OrderResponse>> getOrdersByMerchantId(@PathVariable UUID merchantId) {
+        List<OrderResponse> responses = service.getOrdersByMerchantId(merchantId);
+        return ApiResponse.success(responses, "Orders fetched successfully based on merchant id");
+
     }
 
 
     @GetMapping("/customer/{customerId}")
-    public List<OrderResponse> getOrdersByCustomerId(@PathVariable UUID customerId) {
-        return service.getOrdersByCustomerId(customerId);
+    public ApiResponse<List<OrderResponse>> getOrdersByCustomerId(@PathVariable UUID customerId) {
+        List<OrderResponse> responses = service.getOrdersByCustomerId(customerId);
+        return ApiResponse.success(responses, "Orders fetched successfully based on customer id");
+
     }
 
     @PatchMapping("/{orderId}/status")
-    public OrderResponse updateOrderStatus(@PathVariable UUID orderId, @Valid @RequestBody UpdateOrderStatusRequest request) {
-        System.out.println("Request reached!!");
-        return service.updateOrderStatus(orderId, request);
+    public ApiResponse<OrderResponse> updateOrderStatus(@PathVariable UUID orderId, @Valid @RequestBody UpdateOrderStatusRequest request) {
+        OrderResponse response = service.updateOrderStatus(orderId, request);
+        return ApiResponse.success(response, "Order status updated successfully");
     }
 
 }
