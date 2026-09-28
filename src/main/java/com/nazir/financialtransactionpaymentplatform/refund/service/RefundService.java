@@ -82,7 +82,7 @@ public class RefundService {
         }
 
         BigDecimal refundableAmount = payment.getAmount().subtract(alreadyRefunded);
-
+        log.info("Refund limit check: paymentId={}, paymentAmount={}, " + "alreadyRefunded={}, refundableAmount={}, requestedAmount={}", paymentId, payment.getAmount(), alreadyRefunded, refundableAmount, request.amount());
         if (request.amount().compareTo(refundableAmount) > 0) {
             throw new BusinessException("Refund amount exceeds the remaining refundable amount: " + refundableAmount);
         }
