@@ -16,6 +16,17 @@ public record CreateTransactionRequest(
         BigDecimal amount,
 
         @NotNull
-        TransactionType type
+        TransactionType type,
+
+        UUID refundId
 ) {
+
+    // Backward-compatible constructor for payment processing
+    public CreateTransactionRequest(
+            UUID paymentId,
+            BigDecimal amount,
+            TransactionType type
+    ) {
+        this(paymentId, amount, type, null);
+    }
 }

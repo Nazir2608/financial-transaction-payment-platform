@@ -1,5 +1,6 @@
-package com.nazir.financialtransactionpaymentplatform.transaction.entity;
+package com.nazir.financialtransactionpaymentplatform.refund.entity;
 
+import com.nazir.financialtransactionpaymentplatform.payment.entity.Payment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,36 +9,44 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "transactions", uniqueConstraints = {@UniqueConstraint(name = "uk_transaction_refund", columnNames = "refund_id")})
+@Table(
+        name = "refunds",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_refunds_idempotency_key",
+                        columnNames = "idempotency_key"
+                )
+        }
+)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+public class Refund {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "payment_id", nullable = false)
-    private UUID paymentId;
-
-    @Column(name = "refund_id", unique = true)
-    private UUID refundId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "payment_id", nullable = false)
+    private Payment payment;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private TransactionType type;
+    @Column(nullable = false, length = 3)
+    private String currency;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private TransactionStatus status;
+    private RefundStatus status;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String reference;
+    @Column(length = 255)
+    private String reason;
+
+    @Column(name = "idempotency_key", nullable = false, length = 100)
+    private String idempotencyKey;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -53,13 +62,12 @@ public class Transaction {
         updatedAt = now;
 
         if (status == null) {
-            status = TransactionStatus.PENDING;
+            status = RefundStatus.PENDING;
         }
     }
 
     @PreUpdate
     protected void onUpdate() {
-
         updatedAt = Instant.now();
     }
 }

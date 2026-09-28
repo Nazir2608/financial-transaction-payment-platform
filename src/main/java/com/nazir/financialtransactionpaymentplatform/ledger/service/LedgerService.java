@@ -138,16 +138,19 @@ public class LedgerService {
 
         BigDecimal currentBalance = account.getBalance();
 
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new BusinessException("Ledger amount must be greater than zero");
+        }
         BigDecimal newBalance;
-
         if (type == LedgerEntryType.CREDIT) {
             newBalance = currentBalance.add(amount);
-
             log.debug("Applying CREDIT. accountId={}, currentBalance={}, amount={}, newBalance={}", account.getId(), currentBalance, amount, newBalance);
 
         } else {
+            if (currentBalance.compareTo(amount) < 0) {
+                throw new BusinessException("Insufficient merchant balance for refund");
+            }
             newBalance = currentBalance.subtract(amount);
-
             log.debug("Applying DEBIT. accountId={}, currentBalance={}, amount={}, newBalance={}", account.getId(), currentBalance, amount, newBalance);
         }
 

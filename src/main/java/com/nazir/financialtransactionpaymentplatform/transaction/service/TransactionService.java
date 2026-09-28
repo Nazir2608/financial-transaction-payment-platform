@@ -26,6 +26,7 @@ public class TransactionService {
         Transaction transaction = new Transaction();
 
         transaction.setPaymentId(request.paymentId());
+        transaction.setRefundId(request.refundId());
         transaction.setAmount(request.amount());
         transaction.setType(request.type());
 
@@ -61,12 +62,9 @@ public class TransactionService {
                 .toList();
     }
 
-    public TransactionResponse updateStatus(
-            UUID transactionId,
-            UpdateTransactionStatusRequest request) {
+    public TransactionResponse updateStatus(UUID transactionId, UpdateTransactionStatusRequest request) {
 
-        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() ->
-                new RuntimeException("Transaction not found: " + transactionId));
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new RuntimeException("Transaction not found: " + transactionId));
 
         validateStatusTransition(transaction.getStatus(), request.status());
 
