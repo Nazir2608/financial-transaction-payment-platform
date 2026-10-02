@@ -43,6 +43,12 @@ public class Payment {
     @Column(name = "idempotency_key", nullable = false, unique = true, length = 100)
     private String idempotencyKey;
 
+    @Column(nullable = false, length = 3)
+    private String currency;
+
+    @Column(name = "provider_reference_id", length = 100)
+    private String providerReferenceId;
+
     @PrePersist
     protected void onCreate() {
 

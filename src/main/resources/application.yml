@@ -22,3 +22,7 @@ server:
 logging:
   level:
     com.nazir.financialtransactionpaymentplatform: DEBUG
+
+fincore:
+  payment:
+    provider: mock

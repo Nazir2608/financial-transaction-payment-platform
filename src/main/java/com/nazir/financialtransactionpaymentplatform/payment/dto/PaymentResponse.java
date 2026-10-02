@@ -11,8 +11,10 @@ public record PaymentResponse(
         UUID paymentId,
         UUID orderId,
         BigDecimal amount,
+        String currency,
         String paymentMethod,
         PaymentStatus status,
+        String providerReferenceId,
         Instant createdAt,
         Instant updatedAt
 ) {
@@ -23,8 +25,10 @@ public record PaymentResponse(
                 payment.getId(),
                 payment.getOrder().getId(),
                 payment.getAmount(),
+                payment.getCurrency(),
                 payment.getPaymentMethod(),
                 payment.getStatus(),
+                payment.getProviderReferenceId(),
                 payment.getCreatedAt(),
                 payment.getUpdatedAt()
         );

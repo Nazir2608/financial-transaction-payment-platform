@@ -47,9 +47,10 @@ public class PaymentService {
             boolean sameOrder = payment.getOrder().getId().equals(request.getOrderId());
             boolean sameAmount = payment.getAmount().compareTo(request.getAmount()) == 0;
             boolean samePaymentMethod = payment.getPaymentMethod().equals(request.getPaymentMethod());
+            boolean sameCurrency = payment.getCurrency().equals(request.getCurrency());
 
-            if (!sameOrder || !sameAmount || !samePaymentMethod) {
-                log.warn("Idempotency key reused with different request. " + "idempotencyKey={}, paymentId={}", request.getIdempotencyKey(), payment.getId());
+            if (!sameOrder || !sameAmount || !samePaymentMethod || !sameCurrency) {
+                log.warn("Idempotency key reused with different request. idempotencyKey={}, paymentId={}", request.getIdempotencyKey(), payment.getId());
                 throw new DuplicateResourceException("Idempotency key already used with different payment details");
             }
             log.info("Duplicate payment request detected. paymentId={}, idempotencyKey={}", payment.getId(), request.getIdempotencyKey());
@@ -69,6 +70,7 @@ public class PaymentService {
         payment.setAmount(request.getAmount());
         payment.setPaymentMethod(request.getPaymentMethod());
         payment.setStatus(PaymentStatus.PENDING);
+        payment.setCurrency(request.getCurrency());
         payment.setIdempotencyKey(request.getIdempotencyKey());
 
         // 4. Save
@@ -136,5 +138,25 @@ public class PaymentService {
 
     public List<PaymentResponse> getAllPayments() {
         return paymentRepository.findAll().stream().map(PaymentResponse::from).toList();
+    }
+
+    @Transactional
+    public PaymentResponse updatePaymentFromProvider(UUID paymentId, PaymentStatus newStatus, String providerReferenceId) {
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new ResourceNotFoundException("Payment not found: " + paymentId));
+        PaymentStatus currentStatus = payment.getStatus();
+        // Allow a provider reference to be saved while payment remains PENDING.
+        if (currentStatus == PaymentStatus.PENDING && newStatus == PaymentStatus.PENDING) {
+            payment.setProviderReferenceId(providerReferenceId);
+            Payment savedPayment = paymentRepository.save(payment);
+            log.info("Payment remains pending. paymentId={}, providerReferenceId={}", paymentId, providerReferenceId);
+            return PaymentResponse.from(savedPayment);
+        }
+
+        validateStatusTransition(currentStatus, newStatus);
+        payment.setStatus(newStatus);
+        payment.setProviderReferenceId(providerReferenceId);
+        Payment savedPayment = paymentRepository.save(payment);
+        log.info("Payment updated from provider. paymentId={}, status={}, providerReferenceId={}", paymentId, newStatus, providerReferenceId);
+        return PaymentResponse.from(savedPayment);
     }
 }

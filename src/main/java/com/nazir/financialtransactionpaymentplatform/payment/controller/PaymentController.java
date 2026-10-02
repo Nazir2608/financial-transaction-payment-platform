@@ -3,7 +3,7 @@ package com.nazir.financialtransactionpaymentplatform.payment.controller;
 import com.nazir.financialtransactionpaymentplatform.common.response.ApiResponse;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.CreatePaymentRequest;
 import com.nazir.financialtransactionpaymentplatform.payment.dto.PaymentResponse;
-import com.nazir.financialtransactionpaymentplatform.payment.dto.UpdatePaymentStatusRequest;
+import com.nazir.financialtransactionpaymentplatform.payment.service.PaymentOrchestrationService;
 import com.nazir.financialtransactionpaymentplatform.payment.service.PaymentProcessingService;
 import com.nazir.financialtransactionpaymentplatform.payment.service.PaymentService;
 import jakarta.validation.Valid;
@@ -18,11 +18,11 @@ import java.util.UUID;
 public class PaymentController {
 
     private final PaymentService service;
-    private final PaymentProcessingService paymentProcessingService;
+    private final PaymentOrchestrationService paymentOrchestrationService;
 
-    public PaymentController(PaymentService service, PaymentProcessingService paymentProcessingService) {
+    public PaymentController(PaymentService service, PaymentProcessingService paymentProcessingService, PaymentOrchestrationService paymentOrchestrationService) {
         this.service = service;
-        this.paymentProcessingService = paymentProcessingService;
+        this.paymentOrchestrationService = paymentOrchestrationService;
     }
 
     @PostMapping
@@ -50,15 +50,9 @@ public class PaymentController {
         return ApiResponse.success(responses, "Payments fetched successfully for order");
     }
 
-    @PatchMapping("/{paymentId}/status")
-    public ApiResponse<PaymentResponse> updatePaymentStatus(@PathVariable UUID paymentId, @Valid @RequestBody UpdatePaymentStatusRequest request) {
-        PaymentResponse response = service.updatePaymentStatus(paymentId, request);
-        return ApiResponse.success(response, "Payment status updated successfully");
-    }
-
     @PostMapping("/{paymentId}/process")
     public ApiResponse<String> processPayment(@PathVariable UUID paymentId) {
-        paymentProcessingService.processPayment(paymentId);
+        paymentOrchestrationService.processPayment(paymentId);
         return ApiResponse.success("Payment processed successfully");
     }
 }
